@@ -20,9 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main className="dark text-foreground bg-background">{children}</main>
+        </Providers>
       </body>
     </html>
   );

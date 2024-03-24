@@ -6,7 +6,6 @@ import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownSection,
   DropdownItem,
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,14 +13,15 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export default function MenuButton() {
   return (
-    <Dropdown>
+    <Dropdown backdrop="opaque">
       <DropdownTrigger>
-        <Button variant="bordered">
-          <FontAwesomeIcon icon={faBars} size="2x" />
+        <Button isIconOnly variant="light">
+          <FontAwesomeIcon icon={faBars} size="2x" color="#222222"/>
         </Button>
       </DropdownTrigger>
       <DropdownMenu
         onAction={(key) => alert(key)}
+        color="default"
       >
         <DropdownItem key="about">About Us</DropdownItem>
         <DropdownItem key="coffee">Our Coffee</DropdownItem>
