@@ -1,10 +1,10 @@
-
 "use client";
 
 import Hero from "./components/Hero";
-import Footer from "./components/Footer";
 import About from "./components/About";
 import Coffee from "./components/Coffee";
+import Menu from "./components/Menu";
+import Footer from "./components/Footer";
 
 
 export default function Home() {
@@ -14,6 +14,7 @@ export default function Home() {
       <Hero/>
       <About/>
       <Coffee/>
+      <Menu/>
       <Footer/>
     </div>
   );
