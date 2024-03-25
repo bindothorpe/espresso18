@@ -36,7 +36,9 @@ export default function Footer() {
       <div className="h-[2px] bg-black mb-8 md:mb-10"></div>
       {/* //Copyright */}
       <div className="flex flex-wrap md:flex-row gap-x-5 justify-center">
-        <div>© 2024 Espresso18. All rights reserved.</div>
+        <div className="text-center">
+          <span>&copy; 2024 Espresso18. All rights reserved.</span>
+        </div>
         <div className="underline">Privacy Policy</div>
         <div className="underline">Terms of Service</div>
         <div className="underline">Cookie Settings</div>
