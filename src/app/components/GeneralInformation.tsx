@@ -10,7 +10,7 @@ export default function GeneralInformation() {
         <h2 className="text-3xl md:text-5xl font-bold">Opening Hours and Location</h2>
         <p>We'd love to welcome you and serve you delicious coffee!</p>
       </div>
-      <div className="flex flex-col md:flex-row gap-12 md:gap-48">
+      <div className="flex flex-col md:flex-row gap-12 md:ga-32 lg:gap-48">
         <div className="flex flex-col gap-12">
           {/* Location */}
           <div className="flex flex-col gap-2">
@@ -30,7 +30,7 @@ export default function GeneralInformation() {
             <div>2:00 pm - 7:00 pm</div>
           </div>
         </div>
-        <div className="relative md:flex-grow h-56 overflow-hidden">
+        <div className="relative md:flex-grow h-56 md:h-auto overflow-hidden">
           <Image
             src="/images/hero_black_and_white.jpg"
             alt="Picture of the author"

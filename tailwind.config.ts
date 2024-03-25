@@ -31,8 +31,8 @@ const config: Config = {
         light: {
           layout: {},
           colors: {
-            background: "$white",
-            text: "$black",
+            background: "#E9E9E9",
+            text: "#222222",
             primary: {
               DEFAULT: "#222222",
               foreground: "#E9E9E9",
@@ -51,8 +51,8 @@ const config: Config = {
         dark: {
           layout: {},
           colors: {
-            background: "$white",
-            text: "$black",
+            background: "#E9E9E9",
+            text: "#222222",
             primary: {
               DEFAULT: "#222222",
               foreground: "#E9E9E9",
