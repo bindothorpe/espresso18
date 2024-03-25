@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import MenuButton from "./components/MenuButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,12 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body className={inter.className}>
         <Providers>
-          <main className="dark text-foreground bg-background">{children}</main>
+          <main className="dark text-foreground bg-background">
+      <div className="fixed top-0 right-0 p-4 pr-5 z-10">
+              <MenuButton />
+            </div>
+            {children}
+            </main>
         </Providers>
       </body>
     </html>

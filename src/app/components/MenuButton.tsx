@@ -13,7 +13,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export default function MenuButton() {
   return (
-    <Dropdown backdrop="opaque">
+    <Dropdown backdrop="opaque" radius="sm">
       <DropdownTrigger>
         <Button isIconOnly variant="light">
           <FontAwesomeIcon icon={faBars} size="2x" color="#222222"/>
