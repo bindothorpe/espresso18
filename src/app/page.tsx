@@ -5,6 +5,7 @@ import About from "./components/About";
 import Coffee from "./components/Coffee";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
+import GeneralInformation from "./components/GeneralInformation";
 
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <About/>
       <Coffee/>
       <Menu/>
+      <GeneralInformation/>
       <Footer/>
     </div>
   );

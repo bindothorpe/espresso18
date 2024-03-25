@@ -18,7 +18,7 @@ export default function About() {
       </div>
       <div className='w-1/2 flex justify-center items-center'>
         <div className='gap-10 flex flex-col'>
-          <h2 className='text-5xl'>Experience the Cozy Charm and Breathtaking Views at Espresso 18</h2>
+          <h2 className='text-5xl font-bold'>Experience the Cozy Charm and Breathtaking Views at Espresso 18</h2>
           <p>At Espresso 18, we provide not only excellent coffee, but also a charming environment and stunning mountain vistas, which together make the ideal backdrop for you to unwind and savor a delightful cup of coffee.</p>
           <div>
             <Button color='primary' radius='sm'>Learn More</Button>
