@@ -8,7 +8,7 @@ export default function GeneralInformation() {
     <section className="flex flex-col bg-white text-black p-8 md:p-20 py-12 md:py-28 gap-16 md:gap-20">
       <div className="flex flex-col gap-3 md:gap-5">
         <h2 className="text-3xl md:text-5xl font-bold">Opening Hours and Location</h2>
-        <p>We'd love to welcome you and serve you delicious coffee!</p>
+        <p>{'We\'d love to welcome you and serve you delicious coffee!'}</p>
       </div>
       <div className="flex flex-col md:flex-row gap-12 md:ga-32 lg:gap-48">
         <div className="flex flex-col gap-12">
