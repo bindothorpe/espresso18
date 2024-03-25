@@ -2,10 +2,13 @@ import MenuList from "./MenuList";
 
 export default function Menu() {
   return (
-    <div className="bg-white p-20 py-28 text-black">
-      <h1 className="text-5xl mb-10">Menu</h1>
-      <div className="flex gap-10">
-        <div className="w-1/3">
+    <div className="bg-white p-8 md:p-20 py-12 md:py-28 text-black">
+      <div className="mb-10">
+      <h1 className="text-5xl mb-4">Menu</h1>
+      <p>Enjoy our delicious coffee and pastries.</p>
+      </div>
+      <div className="flex flex-col md:flex-row gap-10">
+        <div className="md:w-1/3">
           <MenuList
             name={"Coffee"}
             items={[
@@ -16,7 +19,7 @@ export default function Menu() {
             ]}
           />
         </div>
-        <div className="w-1/3">
+        <div className="md:w-1/3">
           <MenuList
             name={"Pastries"}
             items={[
@@ -27,7 +30,7 @@ export default function Menu() {
             ]}
           />
         </div>
-        <div className="w-1/3">
+        <div className="md:w-1/3">
           <MenuList
             name={"Other"}
             items={[

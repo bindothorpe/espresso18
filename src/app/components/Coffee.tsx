@@ -3,10 +3,10 @@ import { Button } from "@nextui-org/react";
 
 export default function Coffee() {
   return (
-    <section className="flex flex-row bg-white text-black p-20 py-28 gap-32">
-      <div className="w-1/2 flex justify-center items-center">
+    <section className="flex flex-col-reverse md:flex-row bg-white text-black p-8 md:p-20 py-12 md:py-28 gap-16 md:gap-32">
+      <div className='md:w-1/2 flex justify-center items-center'>
         <div className="gap-10 flex flex-col">
-          <h2 className="text-5xl font-bold">
+        <h2 className='text-3xl md:text-5xl font-bold'>
             Experience the Cozy Charm and Breathtaking Views at Espresso 18
           </h2>
           <p>
@@ -22,7 +22,7 @@ export default function Coffee() {
           </div>
         </div>
       </div>
-      <div className="w-1/2 relative">
+      <div className='md:w-1/2 relative'>
         <div className="w-full h-0 pb-[100%]">
           <div className="absolute inset-0">
             <Image

@@ -5,16 +5,16 @@ import Logo from "./Logo";
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col p-20 bg-white text-black">
+    <footer className="flex flex-col p-12 md:p-20 bg-white text-black">
       {/* //Logo, links, socials */}
-      <div className="flex justify-between mb-16 items-center">
+      <div className="flex flex-col md:flex-row justify-between mb-8 md:mb-16 items-center gap-4">
         {/* Logo */}
-        <div className="flex justify-start w-1/4">
+        <div className="flex justify-start md:w-1/4">
           <Logo />
         </div>
         {/* Links */}
-        <div className="flex flex-row w-1/2 justify-center">
-          <div className="flex flex-row gap-x-5">
+        <div className="flex flex-row md:w-1/2 justify-center w-[100%]">
+          <div className="flex md:flex-row flex-wrap gap-x-5 justify-center">
             <div>Link One</div>
             <div>Link Two</div>
             <div>Link Three</div>
@@ -23,7 +23,7 @@ export default function Footer() {
           </div>
         </div>
         {/* Socials */}
-        <div className="flex flex-row w-1/4 justify-end gap-x-5">
+        <div className="flex flex-row md:w-1/4 justify-end gap-x-5">
           <div>
             <FontAwesomeIcon icon={faInstagram} size="2x" />
           </div>
@@ -33,9 +33,9 @@ export default function Footer() {
         </div>
       </div>
       {/* //Horizontal line */}
-      <div className="h-[2px] bg-black mb-10"></div>
+      <div className="h-[2px] bg-black mb-8 md:mb-10"></div>
       {/* //Copyright */}
-      <div className="flex flex-row gap-x-5 justify-center">
+      <div className="flex flex-wrap md:flex-row gap-x-5 justify-center">
         <div>© 2024 Espresso18. All rights reserved.</div>
         <div className="underline">Privacy Policy</div>
         <div className="underline">Terms of Service</div>
