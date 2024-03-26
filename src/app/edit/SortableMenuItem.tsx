@@ -8,13 +8,7 @@ export type SortableMenuItemProps = {
   price: number;
   description: string | null;
   category: string;
-  onEdit: (item: {
-    _id: string;
-    name: string;
-    description: string;
-    price: number;
-    category: string;
-  }) => void;
+  onClick: () => void;
 };
 
 export function SortableMenuItem(props: SortableMenuItemProps) {
@@ -26,14 +20,8 @@ export function SortableMenuItem(props: SortableMenuItemProps) {
   };
 
   function handleClick() {
-
-    props.onEdit({
-      _id: props.id,
-      name: props.name,
-      description: props.description || "",
-      price: props.price,
-      category: props.category,
-    });
+    console.log("handleClick", props.name);
+    props.onClick();
   }
 
   return (

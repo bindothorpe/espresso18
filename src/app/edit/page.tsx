@@ -64,6 +64,18 @@ export default function Edit() {
     setIsAddNewModalOpen(true);
   }
 
+  function openEditModal(item: {
+    _id: string;
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+  }) {
+    console.log("openEditModal", item)
+    setSelectedItem(item);
+    setIsAddNewModalOpen(true);
+  }
+
   const fetchMenuItems = async () => {
     try {
       const response = await fetch("/api/menuItems");
@@ -217,7 +229,7 @@ export default function Edit() {
                 price={item.price}
                 description={item.description}
                 category={item.category}
-                onEdit={handleEditItem}
+                onClick={() => openEditModal(item)}
               />
             ))}
           </SortableContext>
