@@ -1,7 +1,10 @@
 
 export type MenuItemProps = {
+    _id: string;
     name: string;
     price: number;
+    description: string;
+    category: string;
 };
 
 export default function MenuItem(props: MenuItemProps) {

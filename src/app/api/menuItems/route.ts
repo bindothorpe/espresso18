@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const db = client.db("myDatabase");
   const menuItemsCollection = db.collection("menuItems");
 
-  const menuItems = await menuItemsCollection.find().toArray();
+  const menuItems = (await menuItemsCollection.find().toArray()).sort((a, b) => a.order - b.order);
 
   client.close();
 

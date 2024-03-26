@@ -5,21 +5,31 @@ export async function POST(request: NextRequest) {
   if (!process.env.MONGODB_URI) {
     throw new Error("MONGODB_URI is not defined");
   }
-
+  
   const client = await MongoClient.connect(process.env.MONGODB_URI);
   const db = client.db('myDatabase');
   const menuItemsCollection = db.collection('menuItems');
 
-  const { name, order, description, price, category } = await request.json();
-  const result = await menuItemsCollection.insertOne({
+  const { name, description, price, category } = await request.json();
+
+  // Get the current maximum order number
+  const maxOrderItem = await menuItemsCollection.findOne({}, { sort: { order: -1 }, projection: { order: 1 } });
+  const maxOrder = maxOrderItem ? maxOrderItem.order : 0;
+
+  // Increment the order number
+  const newOrder = maxOrder + 1;
+
+  const newMenuItem = {
     name,
-    order,
     description,
     price,
     category,
-  });
+    order: newOrder,
+  };
+
+  const result = await menuItemsCollection.insertOne(newMenuItem);
 
   client.close();
 
-  return NextResponse.json({ id: result.insertedId });
+  return NextResponse.json({ id: result.insertedId, order: newOrder }, { status: 201 });
 }
