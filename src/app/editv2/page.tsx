@@ -44,8 +44,8 @@ export default function Edit() {
   );
 
   return (
-    <div className="flex flex-col m-16 text-black bg-white">
-      <div className="text-5xl  font-bold mb-8 ml-2">Edit</div>
+    <div className="flex flex-col m-12 mr-14 md:mr-16 md:m-16 text-black bg-white">
+      <div className="text-5xl font-bold mb-8 ml-2">Edit</div>
       <div className="flex gap-4  mb-20">
         <Tabs variant="underlined" color="primary" aria-label="Edit navigation">
           <Tab key="menu" title="Menu" />
@@ -58,7 +58,7 @@ export default function Edit() {
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className="w-1/3 ml-2 ">
+        <div className="w-[100%] md:w-1/3 ml-2 mr-2">
           <h2>Coffee</h2>
 
           {/* //Horizontal line */}
