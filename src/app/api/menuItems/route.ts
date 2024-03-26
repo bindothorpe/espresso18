@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
   const menuItemsCollection = db.collection("menuItems");
 
   const menuItems = (await menuItemsCollection.find().toArray()).sort((a, b) => a.order - b.order);
-
   client.close();
 
   return NextResponse.json(menuItems);

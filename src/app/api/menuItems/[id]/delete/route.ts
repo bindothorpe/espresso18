@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import {revalidateTag} from 'next/cache';
 import { MongoClient, ObjectId } from 'mongodb';
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
@@ -11,7 +12,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   const menuItemsCollection = db.collection('menuItems');
 
   await menuItemsCollection.deleteOne({ _id: new ObjectId(params.id) });
-
+  await revalidateTag("menuItems");
   client.close();
 
   return NextResponse.json({ message: 'Menu item deleted successfully' });

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import {revalidateTag} from 'next/cache';
 import { MongoClient } from 'mongodb';
 
 export async function POST(request: NextRequest) {
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
   };
 
   const result = await menuItemsCollection.insertOne(newMenuItem);
-
+  await revalidateTag('menuItems');
   client.close();
 
   return NextResponse.json({ id: result.insertedId, order: newOrder }, { status: 201 });

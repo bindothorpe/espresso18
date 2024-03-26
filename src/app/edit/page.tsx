@@ -78,7 +78,7 @@ export default function Edit() {
 
   const fetchMenuItems = async () => {
     try {
-      const response = await fetch("/api/menuItems");
+      const response = await fetch("/api/menuItems", { next: { tags: ['menuItems'] } });
       const data = await response.json();
       const sortedData = data.sort((a: any, b: any) => a.order - b.order);
       setItemsData(sortedData);

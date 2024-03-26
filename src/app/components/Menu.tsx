@@ -19,7 +19,7 @@ export default function Menu() {
 
   const fetchMenuData = async () => {
     try {
-      const response = await fetch("/api/menuItems");
+      const response = await fetch("/api/menuItems", { next: { tags: ['menuItems'] } });
       const data: MenuItem[] = await response.json();
       setMenuData(data);
     } catch (error) {

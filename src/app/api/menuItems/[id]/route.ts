@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from 'next/cache';
 import { MongoClient, ObjectId } from "mongodb";
 
 export async function GET(
@@ -50,6 +51,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       { $set: updatedMenuItem }
     );
     
+    await revalidateTag('menuItems');
     client.close();
     
     if (result.matchedCount === 0) {
