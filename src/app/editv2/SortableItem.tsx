@@ -11,18 +11,19 @@ export type SortableItemProps = {
 
 
 export function SortableItem(props: SortableItemProps) {
-  const {
+const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition,
-  } = useSortable({id: props.id});
-  
-  const style = {
+} = useSortable({id: props.id});
+
+const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
+    touchAction: 'none',
+};
   
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners} aria-describedby="" className='text-black bg-white my-5'>

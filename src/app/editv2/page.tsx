@@ -4,6 +4,7 @@ import {
   DndContext,
   closestCenter,
   KeyboardSensor,
+  TouchSensor,
   PointerSensor,
   useSensor,
   useSensors,
@@ -35,6 +36,7 @@ export default function Edit() {
     { id: 11, name: "Mocha", price: 11, description: null },
   ]);
   const sensors = useSensors(
+    useSensor(TouchSensor),
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
@@ -83,6 +85,8 @@ export default function Edit() {
       </DndContext>
     </div>
   );
+
+
 
   function handleDragEnd(event: { active: any; over: any }) {
     const { active, over } = event;
