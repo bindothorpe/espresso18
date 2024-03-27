@@ -32,7 +32,7 @@ export default function EditItemModal(props: {
     <Modal
       isOpen={props.isOpen}
       onOpenChange={props.onClose}
-      placement="top-center"
+      placement="auto"
     >
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Edit Item</ModalHeader>
@@ -72,14 +72,7 @@ export default function EditItemModal(props: {
             ))}
           </Select>
         </ModalBody>
-        <ModalFooter>
-          <Button
-            color="default"
-            variant="flat"
-            onPress={props.onClose}
-          >
-            Cancel
-          </Button>
+        <ModalFooter className="flex justify-between">
           <Button color="danger" variant="bordered" onPress={() => console.log("Remove clicked")}>
             Remove
           </Button>
