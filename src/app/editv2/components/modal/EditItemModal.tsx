@@ -76,7 +76,7 @@ export default function EditItemModal(props: {
           <Button
             color="default"
             variant="flat"
-            onPress={() => console.log("Cancel clicked")}
+            onPress={props.onClose}
           >
             Cancel
           </Button>
