@@ -1,31 +1,18 @@
-import { useEffect, useState } from "react";
+import prisma from "../../lib/prisma";
 import MenuList from "./MenuList";
-import { MenuItemProps } from "./MenuItem";
 
-interface MenuItem {
-  _id: string;
+type MenuItem = {
+  id: string;
+  order: number;
   name: string;
+  description: string | null;
   price: number;
-  description: string;
   category: string;
 }
 
-export default function Menu() {
-  const [menuData, setMenuData] = useState<MenuItemProps[]>([]);
+export default async function Menu() {
 
-  useEffect(() => {
-    fetchMenuData();
-  }, []);
-
-  const fetchMenuData = async () => {
-    try {
-      const response = await fetch("/api/menuItems", { next: { tags: ['menuItems'] } });
-      const data: MenuItem[] = await response.json();
-      setMenuData(data);
-    } catch (error) {
-      console.error("Error fetching menu data:", error);
-    }
-  };
+  const menuData = await prisma.menuItem.findMany();
 
   const getMenuItems = (category: string): MenuItem[] => {
     return menuData.filter((item) => item.category === category);
