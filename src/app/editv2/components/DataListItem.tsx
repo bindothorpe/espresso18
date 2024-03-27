@@ -1,11 +1,16 @@
 "use client";
+
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { MenuItem } from "@prisma/client";
+import { useState } from "react";
+import EditItemModal from "./modal/EditItemModal";
 
 export default function DataListItem(props: MenuItem) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: props.id });
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -13,11 +18,8 @@ export default function DataListItem(props: MenuItem) {
     touchAction: "none",
   };
 
-  function handleOnClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    console.log("handleOnClick", props.name);
-  }
-
   return (
+    <>
     <div
       key={props.id}
       style={style}
@@ -25,7 +27,7 @@ export default function DataListItem(props: MenuItem) {
       {...attributes}
       {...listeners}
       aria-describedby=""
-      onClick={handleOnClick}
+      onClick={() => setIsEditModalOpen(true)}
       className="text-black bg-white my-5 cursor-pointer"
     >
       <div className="flex justify-between">
@@ -34,5 +36,7 @@ export default function DataListItem(props: MenuItem) {
       </div>
       {props.description && <div>{props.description}</div>}
     </div>
+    <EditItemModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} item={props}/>
+    </>
   );
 }

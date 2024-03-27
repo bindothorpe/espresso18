@@ -25,8 +25,18 @@ export default function DataList(props: {
   menuData: MenuItem[];
 }) {
   const sensors = useSensors(
-    useSensor(TouchSensor),
-    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -46,22 +56,19 @@ export default function DataList(props: {
     <div className="w-[100%] ml-2 mr-2">
       <h2>{props.category}</h2> {/* Title */}
       <div className="h-[2px] bg-black my-5"></div> {/* Horizontal Line */}
-      <DndContext 
+      <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}>
-
-          <SortableContext
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
           items={sortedMenuData.map((item) => item.id)}
           strategy={verticalListSortingStrategy}
-          >
-
-        {sortedMenuData.map((item) => (
-          <DataListItem key={item.id} {...item} />
-        ))}
-
+        >
+          {sortedMenuData.map((item) => (
+            <DataListItem key={item.id} {...item} />
+          ))}
         </SortableContext>
-        
       </DndContext>
     </div>
   );
