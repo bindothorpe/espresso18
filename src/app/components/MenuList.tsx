@@ -1,11 +1,10 @@
-import MenuItem, { MenuItemProps } from "./MenuItem";
+import { MenuItem as MenuItemProps } from "@prisma/client";
+import MenuItem from "./MenuItem";
 
-export type MenuListProps = {
+export default function MenuList(props: {
   name: string;
   items: MenuItemProps[];
-};
-
-export default function MenuList(props: MenuListProps) {
+}) {
   return (
     <div>
       <h2>{props.name}</h2>

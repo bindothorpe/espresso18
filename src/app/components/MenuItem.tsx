@@ -1,13 +1,6 @@
+import { MenuItem } from "@prisma/client";
 
-export type MenuItemProps = {
-    _id: string;
-    name: string;
-    price: number;
-    description: string;
-    category: string;
-};
-
-export default function MenuItem(props: MenuItemProps) {
+export default function MenuItem(props: MenuItem) {
     return (
         <div className="flex">
             <div className="flex-grow">
