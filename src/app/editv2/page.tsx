@@ -3,6 +3,8 @@ import prisma from "../../lib/prisma";
 import DataList from "./components/DataList";
 import TabNavigation from "./components/TabNavigation";
 
+import { Category } from "./constants";
+
 export default async function Edit() {
   const itemData: MenuItem[] = await prisma.menuItem.findMany();
 
@@ -11,9 +13,9 @@ export default async function Edit() {
       <div className="text-5xl font-bold mb-8 ml-2">Edit</div>
       <TabNavigation />
       <div className="flex md:flex-row flex-col gap-8">
-        <DataList category="Coffee" menuData={itemData} />
-        <DataList category="Pastries" menuData={itemData} />
-        <DataList category="Other" menuData={itemData} />
+        <DataList category={Category.Coffee} menuData={itemData} />
+        <DataList category={Category.Pastries} menuData={itemData} />
+        <DataList category={Category.Other} menuData={itemData} />
       </div>
     </div>
   );
