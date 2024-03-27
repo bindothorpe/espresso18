@@ -1,10 +1,18 @@
-import { MenuItem as MenuItemProps } from "@prisma/client";
 import MenuItem from "./MenuItem";
+import prisma from "@/lib/prisma";
 
-export default function MenuList(props: {
+export default async function MenuList(props: {
   name: string;
-  items: MenuItemProps[];
 }) {
+
+  const menuItems = await prisma.menuItem.findMany({
+    where: {
+      category: props.name,
+    },
+  });
+
+  console.log(menuItems);
+
   return (
     <div>
       <h2>{props.name}</h2>
@@ -12,7 +20,7 @@ export default function MenuList(props: {
       {/* //Horizontal line */}
       <div className="h-[2px] bg-black my-5"></div>
       <ul>
-        {props.items.map((item, index) => (
+        {menuItems.map((item, index) => (
           <li key={index} className="my-5">
             <MenuItem {...item} />
           </li>
