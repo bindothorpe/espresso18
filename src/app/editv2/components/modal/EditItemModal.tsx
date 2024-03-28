@@ -14,7 +14,6 @@ import {
 import { MenuItem } from "@prisma/client";
 import { deleteMenuItem, updateMenuItem } from "../../actions";
 import { Category } from "../../constants";
-import { useFormStatus } from "react-dom";
 
 export default function EditItemModal(props: {
   isOpen: boolean;
@@ -74,16 +73,12 @@ export default function EditItemModal(props: {
     [props.item.id]
   );
 
-  const handleRemove = useCallback(
-    async () => {
-      setLoadingRemove(true);
-      const result = await deleteMenuItem(props.item.id);
-      setResultRemove(result.message);
-      setLoadingRemove(false);
-    },
-    [props.item.id]
-  );
-
+  const handleRemove = useCallback(async () => {
+    setLoadingRemove(true);
+    const result = await deleteMenuItem(props.item.id);
+    setResultRemove(result.message);
+    setLoadingRemove(false);
+  }, [props.item.id]);
 
   return (
     <Modal isOpen={props.isOpen} onOpenChange={props.onClose} placement="auto">
@@ -119,6 +114,7 @@ export default function EditItemModal(props: {
             <Select
               label="Category"
               name="category"
+              defaultSelectedKeys={[props.item.category]}
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
@@ -136,7 +132,11 @@ export default function EditItemModal(props: {
               onPress={handleRemove}
               isDisabled={loadingRemove}
             >
-              {loadingRemove ? "Deleting..." : resultRemove === "" ? "Delete" : resultRemove}
+              {loadingRemove
+                ? "Deleting..."
+                : resultRemove === ""
+                ? "Delete"
+                : resultRemove}
             </Button>
             <Button color="primary" type="submit" isDisabled={loading}>
               {loading ? "Saving..." : result === "" ? "Save" : result}

@@ -11,7 +11,7 @@ import {
   SelectItem,
   Button,
 } from "@nextui-org/react";
-import { createMenuItem, deleteMenuItem, updateMenuItem } from "../../actions";
+import { createMenuItem } from "../../actions";
 import { Category } from "../../constants";
 
 export default function AddItemModal(props: {
@@ -92,6 +92,7 @@ export default function AddItemModal(props: {
             <Select
               label="Category"
               name="category"
+              defaultSelectedKeys={[categories[0]]}
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
