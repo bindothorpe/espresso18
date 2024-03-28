@@ -14,6 +14,7 @@ import {
 import { MenuItem } from "@prisma/client";
 import { deleteMenuItem, updateMenuItem } from "../../actions";
 import { Category } from "../../constants";
+import toast from "react-hot-toast";
 
 export default function EditItemModal(props: {
   isOpen: boolean;
@@ -22,41 +23,12 @@ export default function EditItemModal(props: {
 }) {
   const [loading, setLoading] = useState(false);
   const [loadingRemove, setLoadingRemove] = useState(false);
-  const [result, setResult] = useState("");
-  const [resultRemove, setResultRemove] = useState("");
   const [name, setName] = useState(props.item.name);
   const [description, setDescription] = useState(props.item.description ?? "");
   const [price, setPrice] = useState(props.item.price.toString());
   const [category, setCategory] = useState(props.item.category);
 
   const categories = Object.values(Category);
-
-  /**
-   * Reset result message after 3 seconds
-   */
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (result === "Error") {
-      timer = setTimeout(() => {
-        setResult("");
-      }, 3000);
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [result]);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (resultRemove === "Error") {
-      timer = setTimeout(() => {
-        setResult("");
-      }, 3000);
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [resultRemove]);
 
   /**
    * Handle form submission
@@ -67,7 +39,13 @@ export default function EditItemModal(props: {
       setLoading(true);
       const formData = new FormData(event.currentTarget);
       const result = await updateMenuItem(props.item.id, formData);
-      setResult(result.message);
+      
+      if (result.type === "success") {
+        toast.success(result.message);
+      } else if (result.type === "error") {
+        toast.error(result.message);
+      }
+
       setLoading(false);
     },
     [props.item.id]
@@ -76,7 +54,13 @@ export default function EditItemModal(props: {
   const handleRemove = useCallback(async () => {
     setLoadingRemove(true);
     const result = await deleteMenuItem(props.item.id);
-    setResultRemove(result.message);
+    
+    if (result.type === "success") {
+      toast.success(result.message);
+    } else if (result.type === "error") {
+      toast.error(result.message);
+    }
+
     setLoadingRemove(false);
   }, [props.item.id]);
 
@@ -132,14 +116,10 @@ export default function EditItemModal(props: {
               onPress={handleRemove}
               isDisabled={loadingRemove}
             >
-              {loadingRemove
-                ? "Deleting..."
-                : resultRemove === ""
-                ? "Delete"
-                : resultRemove}
+              {loadingRemove ? "Deleting..." : "Delete"}
             </Button>
             <Button color="primary" type="submit" isDisabled={loading}>
-              {loading ? "Saving..." : result === "" ? "Save" : result}
+              {loading ? "Saving..." : "Save"}
             </Button>
           </ModalFooter>
         </form>

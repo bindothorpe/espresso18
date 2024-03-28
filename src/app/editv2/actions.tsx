@@ -2,7 +2,12 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function updateMenuItem(id: string, formData: FormData) {
+export type Response = {
+  type: "error" | "success";
+  message: string;
+};
+
+export async function updateMenuItem(id: string, formData: FormData) : Promise<Response>{
   try {
     const description = formData.get("description") as string | null;
 
@@ -14,6 +19,22 @@ export async function updateMenuItem(id: string, formData: FormData) {
       category: formData.get("category") as string,
     };
 
+    if(data.name === null || data.name.trim().length === 0) return {
+      type: "error",
+      message: "Name cannot be empty.",
+    };
+
+    if(data.price === undefined || data.price < 0) return {
+      type: "error",
+      message: "Price cannot be negative.",
+    };
+
+    if(data.category === null || data.category.trim().length === 0) return {
+      type: "error",
+      message: "Category cannot be empty.",
+    };
+
+
     await prisma.menuItem.update({
       where: { id },
       data,
@@ -21,16 +42,18 @@ export async function updateMenuItem(id: string, formData: FormData) {
 
     revalidatePath("/editv2");
     return {
-      message: "Saved",
+      type: "success",
+      message: "Succesfully updated item.",
     };
   } catch (error) {
     return {
-      message: "Error",
+      type: "error",
+      message: "Error updating item. Please try again later.",
     };
   }
 }
 
-export async function deleteMenuItem(id: string) {
+export async function deleteMenuItem(id: string): Promise<Response> {
   try {
     await prisma.menuItem.delete({
       where: { id },
@@ -38,16 +61,18 @@ export async function deleteMenuItem(id: string) {
 
     revalidatePath("/editv2");
     return {
-      message: "Deleted",
+      type: "success",
+      message: "Succesfully deleted item.",
     };
   } catch (error) {
     return {
-      message: "Error",
+      type: "error",
+      message: "Error deleting item. Please try again later.",
     };
   }
 }
 
-export async function createMenuItem(formData: FormData) {
+export async function createMenuItem(formData: FormData): Promise<Response> {
   try {
     const description = formData.get("description") as string | null;
 
@@ -68,16 +93,33 @@ export async function createMenuItem(formData: FormData) {
       category: formData.get("category") as string,
     };
 
+    if(data.name === null || data.name.trim().length === 0) return {
+      type: "error",
+      message: "Name cannot be empty.",
+    };
+
+    if(data.price < 0) return {
+      type: "error",
+      message: "Price cannot be negative.",
+    };
+
+    if(data.category === null || data.category.trim().length === 0) return {
+      type: "error",
+      message: "Category cannot be empty.",
+    };
+
     await prisma.menuItem.create({
       data,
     });
 
     revalidatePath("/editv2");
     return {
+      type: "success",
       message: "Succesfully created item.",
     };
   } catch (error) {
     return {
+      type: "error",
       message: "Error creating item. Please try again later.",
     };
   }

@@ -13,14 +13,14 @@ import {
 } from "@nextui-org/react";
 import { createMenuItem } from "../../actions";
 import { Category } from "../../constants";
+import toast from "react-hot-toast";
 
 export default function AddItemModal(props: {
   isOpen: boolean;
   onClose: () => void;
 }) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState("");
-  
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -28,20 +28,7 @@ export default function AddItemModal(props: {
 
   const categories = Object.values(Category);
 
-  /**
-   * Reset result message after 3 seconds
-   */
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (result === "Error") {
-      timer = setTimeout(() => {
-        setResult("");
-      }, 3000);
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [result]);
+
   /**
    * Handle form submission
    */
@@ -51,15 +38,30 @@ export default function AddItemModal(props: {
       setLoading(true);
       const formData = new FormData(event.currentTarget);
       const result = await createMenuItem(formData);
-      setResult(result.message);
+
+      if(result.type === "success") {
+        toast.success(result.message);
+        clearFormAndClose()
+      } else if(result.type === "error") {
+        toast.error(result.message);
+      }
+
+
       setLoading(false);
     },
     []
   );
 
+  function clearFormAndClose() {
+    setName("");
+    setDescription("");
+    setPrice("");
+    setCategory(categories[0]);
+    props.onClose();
+  }
 
   return (
-    <Modal isOpen={props.isOpen} onOpenChange={props.onClose} placement="auto">
+    <Modal isOpen={props.isOpen} onOpenChange={clearFormAndClose} placement="auto">
       <ModalContent>
         <form onSubmit={handleSubmit}>
           <ModalHeader className="flex flex-col gap-1">Add Item</ModalHeader>
@@ -107,13 +109,13 @@ export default function AddItemModal(props: {
             <Button
               color="default"
               variant="bordered"
-              onPress={props.onClose}
+              onPress={clearFormAndClose}
               isDisabled={loading}
             >
               Cancel
             </Button>
             <Button color="primary" type="submit" isDisabled={loading}>
-              {loading ? "Saving..." : "Save"}
+              {loading ? "Creating..." : "Create"}
             </Button>
           </ModalFooter>
         </form>
