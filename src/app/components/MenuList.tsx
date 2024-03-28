@@ -1,15 +1,21 @@
+import toast from "react-hot-toast";
+import { DataResponse, getMenuItemsByCategory } from "../edit/actions";
 import MenuItem from "./MenuItem";
-import prisma from "@/lib/prisma";
+
+
+export const revalidateTags = ["menu-items"];
 
 export default async function MenuList(props: {
   name: string;
 }) {
 
-  const menuItems = await prisma.menuItem.findMany({
-    where: {
-      category: props.name,
-    },
-  });
+  const response: DataResponse = await getMenuItemsByCategory(props.name);
+
+  const menuItems = response.data;
+
+  if(response.type === "error") {
+    toast.error(response.message);
+  }
 
   return (
     <div>

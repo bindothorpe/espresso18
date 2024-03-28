@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { MenuItem } from "@prisma/client";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 export type Response = {
   type: "error" | "success";
@@ -47,7 +47,8 @@ export async function updateMenuItem(id: string, formData: FormData) : Promise<R
       data,
     });
 
-    revalidatePath("/edit");
+    
+    revalidateTag("menu-items");
     return {
       type: "success",
       message: "Succesfully updated item.",
@@ -66,8 +67,8 @@ export async function deleteMenuItem(id: string): Promise<Response> {
       where: { id },
     });
 
-    revalidatePath("/edit");
-    revalidatePath("/")
+    
+    revalidateTag("menu-items");
     return {
       type: "success",
       message: "Succesfully deleted item.",
@@ -120,8 +121,7 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
       data,
     });
 
-    revalidatePath("/edit");
-    revalidatePath("/")
+    revalidateTag("menu-items");
     return {
       type: "success",
       message: "Succesfully created item.",
@@ -145,8 +145,8 @@ export async function updateMenuItemOrder(menuItems: MenuItem[]): Promise<Respon
 
     await Promise.all(updatePromises);
 
-    revalidatePath("/edit");
-    revalidatePath("/")
+    
+    revalidateTag("menu-items");
 
     return {
       type: "success",
@@ -163,6 +163,27 @@ export async function updateMenuItemOrder(menuItems: MenuItem[]): Promise<Respon
 export async function getMenuItems(): Promise<DataResponse> {
   try {
     const data = await prisma.menuItem.findMany();
+
+    return {
+      type: "success",
+      message: "Succesfully fetched menu items.",
+      data: data
+    }
+  } catch(error) {
+    return {
+      type: "error",
+      message: "Error fetching menu items. Please try again later.",
+      data: []
+    }
+  }
+}
+
+export async function getMenuItemsByCategory(category: string): Promise<DataResponse> {
+  try {
+    const data = await prisma.menuItem.findMany({
+      where: { category: category },
+      orderBy: { order: "asc" },
+    });
 
     return {
       type: "success",

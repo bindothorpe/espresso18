@@ -7,6 +7,9 @@ import DataListsContainer from "./DataListsContainer";
 import { DataResponse, getMenuItems } from "./actions";
 import toast from "react-hot-toast";
 
+
+export const revalidateTags = ["menu-items"];
+
 export default async function Edit() {
   
   const response: DataResponse = await getMenuItems();

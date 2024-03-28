@@ -40,13 +40,13 @@ export default function DataList(props: {
   const sensors = useSensors(
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 250,
+        delay: 100,
         tolerance: 5,
       },
     }),
     useSensor(PointerSensor, {
       activationConstraint: {
-        delay: 250,
+        delay: 100,
         tolerance: 5,
       },
     }),
