@@ -4,6 +4,7 @@ import DataList from "./components/DataList";
 import TabNavigation from "./components/TabNavigation";
 
 import { Category } from "./constants";
+import AddMenuItemButton from "./components/AddMenuItemButton";
 
 export default async function Edit() {
   const itemData: MenuItem[] = await prisma.menuItem.findMany();
@@ -16,6 +17,9 @@ export default async function Edit() {
         <DataList category={Category.Coffee} menuData={itemData} />
         <DataList category={Category.Pastries} menuData={itemData} />
         <DataList category={Category.Other} menuData={itemData} />
+      </div>
+      <div className="flex justify-center mt-24">
+          <AddMenuItemButton/>
       </div>
     </div>
   );

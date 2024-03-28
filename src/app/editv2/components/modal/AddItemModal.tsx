@@ -11,24 +11,20 @@ import {
   SelectItem,
   Button,
 } from "@nextui-org/react";
-import { MenuItem } from "@prisma/client";
-import { deleteMenuItem, updateMenuItem } from "../../actions";
+import { createMenuItem, deleteMenuItem, updateMenuItem } from "../../actions";
 import { Category } from "../../constants";
-import { useFormStatus } from "react-dom";
 
-export default function EditItemModal(props: {
+export default function AddItemModal(props: {
   isOpen: boolean;
   onClose: () => void;
-  item: MenuItem;
 }) {
   const [loading, setLoading] = useState(false);
-  const [loadingRemove, setLoadingRemove] = useState(false);
   const [result, setResult] = useState("");
-  const [resultRemove, setResultRemove] = useState("");
-  const [name, setName] = useState(props.item.name);
-  const [description, setDescription] = useState(props.item.description ?? "");
-  const [price, setPrice] = useState(props.item.price.toString());
-  const [category, setCategory] = useState(props.item.category);
+  
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
 
   const categories = Object.values(Category);
 
@@ -46,19 +42,6 @@ export default function EditItemModal(props: {
       clearTimeout(timer);
     };
   }, [result]);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (resultRemove === "Error") {
-      timer = setTimeout(() => {
-        setResult("");
-      }, 3000);
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [resultRemove]);
-
   /**
    * Handle form submission
    */
@@ -67,21 +50,11 @@ export default function EditItemModal(props: {
       event.preventDefault();
       setLoading(true);
       const formData = new FormData(event.currentTarget);
-      const result = await updateMenuItem(props.item.id, formData);
+      const result = await createMenuItem(formData);
       setResult(result.message);
       setLoading(false);
     },
-    [props.item.id]
-  );
-
-  const handleRemove = useCallback(
-    async () => {
-      setLoadingRemove(true);
-      const result = await deleteMenuItem(props.item.id);
-      setResultRemove(result.message);
-      setLoadingRemove(false);
-    },
-    [props.item.id]
+    []
   );
 
 
@@ -89,7 +62,7 @@ export default function EditItemModal(props: {
     <Modal isOpen={props.isOpen} onOpenChange={props.onClose} placement="auto">
       <ModalContent>
         <form onSubmit={handleSubmit}>
-          <ModalHeader className="flex flex-col gap-1">Edit Item</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">Add Item</ModalHeader>
           <ModalBody>
             <Input
               label="Item name"
@@ -131,15 +104,15 @@ export default function EditItemModal(props: {
           </ModalBody>
           <ModalFooter className="flex justify-between">
             <Button
-              color="danger"
+              color="default"
               variant="bordered"
-              onPress={handleRemove}
-              isDisabled={loadingRemove}
+              onPress={props.onClose}
+              isDisabled={loading}
             >
-              {loadingRemove ? "Deleting..." : resultRemove === "" ? "Delete" : resultRemove}
+              Cancel
             </Button>
             <Button color="primary" type="submit" isDisabled={loading}>
-              {loading ? "Saving..." : result === "" ? "Save" : result}
+              {loading ? "Saving..." : "Save"}
             </Button>
           </ModalFooter>
         </form>

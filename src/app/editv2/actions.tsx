@@ -46,3 +46,39 @@ export async function deleteMenuItem(id: string) {
     };
   }
 }
+
+export async function createMenuItem(formData: FormData) {
+  try {
+    const description = formData.get("description") as string | null;
+
+    const getHighestOrder = await prisma.menuItem.findFirst({
+      where: {
+        category: formData.get("category") as string,
+      },
+      orderBy: {
+        order: "desc",
+      },
+    });
+
+    const data = {
+      name: formData.get("name") as string,
+      order: getHighestOrder ? getHighestOrder.order + 1 : 0,
+      description: description === "" ? null : description,
+      price: parseFloat(formData.get("price") as string),
+      category: formData.get("category") as string,
+    };
+
+    await prisma.menuItem.create({
+      data,
+    });
+
+    revalidatePath("/editv2");
+    return {
+      message: "Succesfully created item.",
+    };
+  } catch (error) {
+    return {
+      message: "Error creating item. Please try again later.",
+    };
+  }
+}
