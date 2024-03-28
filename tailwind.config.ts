@@ -12,6 +12,8 @@ const config: Config = {
     colors: {
       white: "#E9E9E9",
       black: "#222222",
+      red: "#f46b6f",
+      green: "#80c788",
     },
     extend: {
       backgroundImage: {
@@ -23,51 +25,35 @@ const config: Config = {
   },
   plugins: [
     nextui({
-      prefix: "nextui",
-      addCommonColors: false,
-      defaultTheme: "light",
-      defaultExtendTheme: "light",
-      layout: {},
+      prefix: "nextui", // prefix for themes variables
+      addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
+      defaultTheme: "light", // default theme from the themes object
+      defaultExtendTheme: "light", // default theme to extend on custom themes
+      layout: {}, // common layout tokens (applied to all themes)
       themes: {
         light: {
-          layout: {},
+          layout: {}, // light theme layout tokens
           colors: {
             background: "#E9E9E9",
-            text: "#222222",
+            foreground: "#222222",
             primary: {
               DEFAULT: "#222222",
               foreground: "#E9E9E9",
             },
-            primaryLight: "#E9E9E9",
-            primaryLightHover: "#CCCCCC",
-            primaryLightActive: "#AAAAAA",
-            primaryLightContrast: "#222222",
-            primaryBorder: "#222222",
-            primaryBorderHover: "#111111",
-            primarySolidHover: "#111111",
-            primarySolidContrast: "#E9E9E9",
-            primaryShadow: "#222222",
+            success: {
+              DEFAULT: "#80c788",
+              foreground: "#E9E9E9",
+            },
+            danger: {
+              DEFAULT: "#f46b6f",
+              foreground: "#E9E9E9",
+            },
+            focus: "#222222"
           },
         },
         dark: {
-          layout: {},
-          colors: {
-            background: "#E9E9E9",
-            text: "#222222",
-            primary: {
-              DEFAULT: "#222222",
-              foreground: "#E9E9E9",
-            },
-            primaryLight: "#E9E9E9",
-            primaryLightHover: "#CCCCCC",
-            primaryLightActive: "#AAAAAA",
-            primaryLightContrast: "#222222",
-            primaryBorder: "#222222",
-            primaryBorderHover: "#111111",
-            primarySolidHover: "#111111",
-            primarySolidContrast: "#E9E9E9",
-            primaryShadow: "#222222",
-          },
+          layout: {}, // dark theme layout tokens
+          colors: {}, // dark theme colors
         },
         // ... custom themes
       },
