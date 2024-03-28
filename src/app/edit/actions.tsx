@@ -67,6 +67,7 @@ export async function deleteMenuItem(id: string): Promise<Response> {
     });
 
     revalidatePath("/edit");
+    revalidatePath("/")
     return {
       type: "success",
       message: "Succesfully deleted item.",
@@ -120,6 +121,7 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
     });
 
     revalidatePath("/edit");
+    revalidatePath("/")
     return {
       type: "success",
       message: "Succesfully created item.",
@@ -144,6 +146,7 @@ export async function updateMenuItemOrder(menuItems: MenuItem[]): Promise<Respon
     await Promise.all(updatePromises);
 
     revalidatePath("/edit");
+    revalidatePath("/")
 
     return {
       type: "success",

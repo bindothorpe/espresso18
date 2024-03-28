@@ -11,8 +11,6 @@ export default async function MenuList(props: {
     },
   });
 
-  console.log(menuItems);
-
   return (
     <div>
       <h2>{props.name}</h2>
