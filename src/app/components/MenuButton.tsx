@@ -17,12 +17,12 @@ export default function MenuButton() {
 
   const handleNavigation = (key: Key) => {
     if (key.toString() === "edit") {
-      router.push("/editv2");
+      router.push("/edit");
     }
   }
 
   return (
-    <Dropdown backdrop="blur" radius="sm">
+    <Dropdown backdrop="opaque" radius="sm">
       <DropdownTrigger>
         <Button isIconOnly variant="light">
           <FontAwesomeIcon icon={faBars} size="2x" color="#222222" />

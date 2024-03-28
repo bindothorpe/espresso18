@@ -42,6 +42,7 @@ export default function EditItemModal(props: {
       
       if (result.type === "success") {
         toast.success(result.message);
+        props.onClose();
       } else if (result.type === "error") {
         toast.error(result.message);
       }
@@ -57,6 +58,7 @@ export default function EditItemModal(props: {
     
     if (result.type === "success") {
       toast.success(result.message);
+      props.onClose();
     } else if (result.type === "error") {
       toast.error(result.message);
     }

@@ -40,7 +40,7 @@ export async function updateMenuItem(id: string, formData: FormData) : Promise<R
       data,
     });
 
-    revalidatePath("/editv2");
+    revalidatePath("/edit");
     return {
       type: "success",
       message: "Succesfully updated item.",
@@ -59,7 +59,7 @@ export async function deleteMenuItem(id: string): Promise<Response> {
       where: { id },
     });
 
-    revalidatePath("/editv2");
+    revalidatePath("/edit");
     return {
       type: "success",
       message: "Succesfully deleted item.",
@@ -112,7 +112,7 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
       data,
     });
 
-    revalidatePath("/editv2");
+    revalidatePath("/edit");
     return {
       type: "success",
       message: "Succesfully created item.",
