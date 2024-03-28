@@ -8,7 +8,7 @@ export default function AddMenuItemButton() {
 
   return (
     <>
-      <Button onClick={() => setIsEditModalOpen(true)}>Add Item</Button>
+      <Button color="primary" onClick={() => setIsEditModalOpen(true)}>Add Item</Button>
       <AddItemModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}

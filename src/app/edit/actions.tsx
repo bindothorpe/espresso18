@@ -1,11 +1,18 @@
 "use server";
 import prisma from "@/lib/prisma";
+import { MenuItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export type Response = {
   type: "error" | "success";
   message: string;
 };
+
+export type DataResponse = {
+  type: "error" | "success";
+  message: string;
+  data: MenuItem[];
+}
 
 export async function updateMenuItem(id: string, formData: FormData) : Promise<Response>{
   try {
@@ -122,5 +129,48 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
       type: "error",
       message: "Error creating item. Please try again later.",
     };
+  }
+}
+
+export async function updateMenuItemOrder(menuItems: MenuItem[]): Promise<Response> {
+  try {
+    const updatePromises = menuItems.map((item) => {
+      return prisma.menuItem.update({
+        where: { id: item.id },
+        data: { order: item.order },
+      });
+    });
+
+    await Promise.all(updatePromises);
+
+    revalidatePath("/edit");
+
+    return {
+      type: "success",
+      message: "Successfully updated menu item order.",
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error updating menu item order. Please try again later.",
+    };
+  }
+}
+
+export async function getMenuItems(): Promise<DataResponse> {
+  try {
+    const data = await prisma.menuItem.findMany();
+
+    return {
+      type: "success",
+      message: "Succesfully fetched menu items.",
+      data: data
+    }
+  } catch(error) {
+    return {
+      type: "error",
+      message: "Error fetching menu items. Please try again later.",
+      data: []
+    }
   }
 }

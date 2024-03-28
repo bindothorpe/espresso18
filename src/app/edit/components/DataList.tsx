@@ -7,8 +7,7 @@ import {
   TouchSensor,
   PointerSensor,
   useSensor,
-  useSensors,
-  DragEndEvent,
+  useSensors
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -19,11 +18,25 @@ import {
 
 import { MenuItem } from "@prisma/client";
 import DataListItem from "./DataListItem";
+import { useEffect, useState } from "react";
 
 export default function DataList(props: {
   category: string;
-  menuData: MenuItem[];
+  menuItems: MenuItem[];
+  onUpdateMenuItem: (item: MenuItem) => void;
 }) {
+  const [items, setItems] = useState<MenuItem[]>([]);
+
+  useEffect(() => {
+    const filteredMenuData = props.menuItems.filter(
+      (item) =>
+        item.category.toLocaleLowerCase() === props.category.toLowerCase()
+    );
+
+    const sortedMenuData = filteredMenuData.sort((a, b) => a.order - b.order);
+    setItems(sortedMenuData);
+  }, [props.menuItems]);
+
   const sensors = useSensors(
     useSensor(TouchSensor, {
       activationConstraint: {
@@ -42,14 +55,25 @@ export default function DataList(props: {
     })
   );
 
-  const filteredMenuData = props.menuData.filter(
-    (item) => item.category.toLocaleLowerCase() === props.category.toLowerCase()
-  );
+  function handleDragEnd(event: { active: any; over: any }): void {
+    const { active, over } = event;
 
-  const sortedMenuData = filteredMenuData.sort((a, b) => a.order - b.order);
+    if (active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        const newItems = arrayMove(items, oldIndex, newIndex);
 
-  function handleDragEnd(event: DragEndEvent): void {
-    console.log("handleDragEnd", event);
+        // console.log(newItems);
+        newItems.forEach((item, index) => {
+          if(item.order !== index) {
+            item.order = index;
+            props.onUpdateMenuItem(item);
+          }
+        });
+        return newItems;
+      });
+    }
   }
 
   return (
@@ -62,10 +86,10 @@ export default function DataList(props: {
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={sortedMenuData.map((item) => item.id)}
+          items={items.map((item) => item.id)}
           strategy={verticalListSortingStrategy}
         >
-          {sortedMenuData.map((item) => (
+          {items.map((item) => (
             <DataListItem key={item.id} {...item} />
           ))}
         </SortableContext>
