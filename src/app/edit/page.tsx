@@ -10,7 +10,7 @@ export default async function Edit() {
     next: {
       tags: ["MenuList"],
     },
-  }).then((res) => res.json());
+  });
 
   let response;
 
