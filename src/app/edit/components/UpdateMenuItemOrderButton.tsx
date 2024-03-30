@@ -19,6 +19,9 @@ export default function UpdateMenuItemOrderButton(props: {
       headers: {
         "Content-Type": "application/json",
       },
+      next: {
+        tags: ["MenuList"],
+      },
       body: JSON.stringify(props.menuItems),
     }).then((res) => res.json());
 

@@ -52,6 +52,9 @@ export default function EditItemModal(props: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(menuItemData),
+        next: {
+          tags: ["MenuList"],
+        }
       }).then((res) => res.json());
       
       if (result.type === "success") {
@@ -71,6 +74,9 @@ export default function EditItemModal(props: {
     
     const result = await fetch(`http://localhost:3000/api/menuitems/${props.item.id}`, {
       method: "DELETE",
+      next: {
+        tags: ["MenuList"],
+      }
     }).then((res) => res.json());
     
     if (result.type === "success") {

@@ -51,6 +51,9 @@ export default function AddItemModal(props: {
         headers: {
           "Content-Type": "application/json",
         },
+        next: {
+          tags: ["MenuList"],
+        }
       }).then((res) => res.json());
 
       if(result.type === "success") {

@@ -11,6 +11,9 @@ export default async function MenuList(props: { name: string }) {
       headers: {
         "Content-Type": "application/json",
       },
+      next: {
+        tags: ["MenuList"],
+      }
     }
   ).then((res) => res.json());
 

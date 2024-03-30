@@ -1,9 +1,12 @@
 import prisma from "@/lib/prisma";
 import { MenuItem } from "@prisma/client";
+import { revalidateTag } from "next/cache";
 
 export async function GET(request: Request) {
   try {
     const response = await prisma.menuItem.findMany();
+
+    revalidateTag("MenuList");
 
     return Response.json({
       type: "success",
@@ -42,6 +45,8 @@ export async function POST(request: Request) {
       },
     });
 
+    revalidateTag("MenuList");
+
     return Response.json({
       type: "success",
       message: "Succesfully created menu item.",
@@ -69,6 +74,8 @@ export async function PUT(request: Request) {
     });
 
     await Promise.all(updatePromises);
+
+    revalidateTag("MenuList");
 
     return Response.json({
       type: "success",

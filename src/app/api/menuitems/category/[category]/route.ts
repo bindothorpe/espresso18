@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { revalidateTag } from "next/cache";
 
 export async function GET(
   request: Request,
@@ -12,6 +13,8 @@ export async function GET(
         category: category,
       },
     });
+
+    revalidateTag("MenuList");
 
     return Response.json({
       type: "success",

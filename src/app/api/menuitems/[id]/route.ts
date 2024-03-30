@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { revalidateTag } from "next/cache";
 
 export async function DELETE(
   request: Request,
@@ -10,6 +11,8 @@ export async function DELETE(
     const response = await prisma.menuItem.delete({
       where: { id },
     });
+
+    revalidateTag("MenuList");
 
     return Response.json({
       type: "success",
@@ -36,6 +39,8 @@ export async function PUT(
       where: { id },
       data: body,
     });
+
+    revalidateTag("MenuList");
 
     return Response.json({
       type: "success",
