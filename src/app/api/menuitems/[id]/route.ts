@@ -43,6 +43,7 @@ export async function PUT(
       data: response,
     });
   } catch (error) {
+    console.error(error);
     return Response.json({
       type: "error",
       message: "Error updating menu item. Please try again later.",

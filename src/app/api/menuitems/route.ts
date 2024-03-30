@@ -23,8 +23,23 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
+    const getHighestOrder = await prisma.menuItem.findFirst({
+      where: {
+        category: body.category,
+      },
+      orderBy: {
+        order: "desc",
+      },
+    });
+
     const response = await prisma.menuItem.create({
-      data: body,
+      data: {
+        name: body.name,
+        description: body.description,
+        price: body.price as number,
+        category: body.category,
+        order: getHighestOrder ? getHighestOrder.order + 1 : 0,
+      },
     });
 
     return Response.json({
@@ -33,6 +48,7 @@ export async function POST(request: Request) {
       data: response,
     });
   } catch (error) {
+    console.error(error);
     return Response.json({
       type: "error",
       message: "Error creating menu item. Please try again later.",

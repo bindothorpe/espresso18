@@ -14,7 +14,15 @@ export default function UpdateMenuItemOrderButton(props: {
 
   const handleUpdateOrder = async () => {
     setLoading(true);
-    const response = await updateMenuItemOrder(props.menuItems);
+    const response = await fetch("http://localhost:3000/api/menuitems", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(props.menuItems),
+    }).then((res) => res.json());
+
+    
     if (response.type === "success") {
       toast.success(response.message);
     } else {

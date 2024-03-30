@@ -12,7 +12,6 @@ import {
   Button,
 } from "@nextui-org/react";
 import { MenuItem } from "@prisma/client";
-import { deleteMenuItem, updateMenuItem } from "../../actions";
 import { Category } from "../../constants";
 import toast from "react-hot-toast";
 
@@ -38,7 +37,22 @@ export default function EditItemModal(props: {
       event.preventDefault();
       setLoading(true);
       const formData = new FormData(event.currentTarget);
-      const result = await updateMenuItem(props.item.id, formData);
+
+      const menuItemData = { 
+        name: formData.get("name") as string,
+        description: formData.get("description") as string,
+        price: parseFloat(formData.get("price") as string),
+        category: formData.get("category") as string,
+      };
+      
+
+      const result = await fetch(`http://localhost:3000/api/menuitems/${props.item.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(menuItemData),
+      }).then((res) => res.json());
       
       if (result.type === "success") {
         toast.success(result.message);
@@ -54,7 +68,10 @@ export default function EditItemModal(props: {
 
   const handleRemove = useCallback(async () => {
     setLoadingRemove(true);
-    const result = await deleteMenuItem(props.item.id);
+    
+    const result = await fetch(`http://localhost:3000/api/menuitems/${props.item.id}`, {
+      method: "DELETE",
+    }).then((res) => res.json());
     
     if (result.type === "success") {
       toast.success(result.message);
