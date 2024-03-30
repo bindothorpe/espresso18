@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { MenuItem } from "@prisma/client";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache,  } from "next/cache";
 
 export type Response = {
   type: "error" | "success";
@@ -13,6 +13,58 @@ export type DataResponse = {
   message: string;
   data: MenuItem[];
 }
+
+
+export const unstable_getMenuItems = unstable_cache(
+  async () => {
+    try {
+      const data = await prisma.menuItem.findMany();
+
+      return {
+        type: "success",
+        message: "Succesfully fetched menu items.",
+        data: data
+      }
+    } catch (error) {
+      return {
+        type: "error",
+        message: "Error fetching menu items. Please try again later.",
+        data: []
+      }
+    }
+  },
+  ["menu-items"],
+  {
+    tags: ["menu-items"]
+  }
+)
+
+export const unstable_getMenuItemsByCategory = unstable_cache(
+  async (category: string) => {
+    try {
+      const data = await prisma.menuItem.findMany({
+        where: { category: category },
+        orderBy: { order: "asc" },
+      });
+  
+      return {
+        type: "success",
+        message: "Succesfully fetched menu items.",
+        data: data
+      }
+    } catch(error) {
+      return {
+        type: "error",
+        message: "Error fetching menu items. Please try again later.",
+        data: []
+      }
+    }
+  },
+  ["menu-items"],
+  {
+    tags: ["menu-items"]
+  }
+)
 
 export async function updateMenuItem(id: string, formData: FormData) : Promise<Response>{
   try {
@@ -47,9 +99,8 @@ export async function updateMenuItem(id: string, formData: FormData) : Promise<R
       data,
     });
 
-    
-    revalidatePath("/edit");
-    revalidatePath("/");
+    revalidateTag("menu-items");
+
     return {
       type: "success",
       message: "Succesfully updated item.",
@@ -68,9 +119,8 @@ export async function deleteMenuItem(id: string): Promise<Response> {
       where: { id },
     });
 
-    
-    revalidatePath("/edit");
-    revalidatePath("/");
+    revalidateTag("menu-items");
+
     return {
       type: "success",
       message: "Succesfully deleted item.",
@@ -123,8 +173,8 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
       data,
     });
 
-    revalidatePath("/edit");
-    revalidatePath("/");
+    revalidateTag("menu-items");
+
     return {
       type: "success",
       message: "Succesfully created item.",
@@ -148,9 +198,7 @@ export async function updateMenuItemOrder(menuItems: MenuItem[]): Promise<Respon
 
     await Promise.all(updatePromises);
 
-    
-    revalidatePath("/edit");
-    revalidatePath("/");
+    revalidateTag("menu-items");
 
     return {
       type: "success",

@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { DataResponse, getMenuItemsByCategory } from "../edit/actions";
+import { DataResponse, getMenuItemsByCategory, unstable_getMenuItemsByCategory } from "../edit/actions";
 import MenuItem from "./MenuItem";
 
 
@@ -9,7 +9,7 @@ export default async function MenuList(props: {
   name: string;
 }) {
 
-  const response: DataResponse = await getMenuItemsByCategory(props.name);
+  const response = await unstable_getMenuItemsByCategory(props.name);
 
   const menuItems = response.data;
 

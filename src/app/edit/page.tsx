@@ -1,15 +1,14 @@
 import { MenuItem } from "@prisma/client";
-import prisma from "../../lib/prisma";
 import TabNavigation from "./components/TabNavigation";
 
 import AddMenuItemButton from "./components/AddMenuItemButton";
 import DataListsContainer from "./DataListsContainer";
-import { DataResponse, getMenuItems } from "./actions";
+import { unstable_getMenuItems } from "./actions";
 import toast from "react-hot-toast";
 
 export default async function Edit() {
   
-  const response: DataResponse = await getMenuItems();
+  const response = await unstable_getMenuItems();
   const itemData: MenuItem[] = response.data;
 
   if(response.type === "error") {
