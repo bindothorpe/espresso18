@@ -14,6 +14,7 @@ import {
 import { MenuItem } from "@prisma/client";
 import { Category } from "../../constants";
 import toast from "react-hot-toast";
+import { Response, deleteMenuItem, updateMenuItem } from "../../actions";
 
 export default function EditItemModal(props: {
   isOpen: boolean;
@@ -38,25 +39,9 @@ export default function EditItemModal(props: {
       setLoading(true);
       const formData = new FormData(event.currentTarget);
 
-      const menuItemData = { 
-        name: formData.get("name") as string,
-        description: formData.get("description") as string,
-        price: parseFloat(formData.get("price") as string),
-        category: formData.get("category") as string,
-      };
-      
 
-      const result = await fetch(`http://localhost:3000/api/menuitems/${props.item.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(menuItemData),
-        next: {
-          tags: ["MenuList"],
-        }
-      }).then((res) => res.json());
-      
+      const result: Response = await updateMenuItem(props.item.id, formData);
+
       if (result.type === "success") {
         toast.success(result.message);
         props.onClose();
@@ -72,12 +57,7 @@ export default function EditItemModal(props: {
   const handleRemove = useCallback(async () => {
     setLoadingRemove(true);
     
-    const result = await fetch(`http://localhost:3000/api/menuitems/${props.item.id}`, {
-      method: "DELETE",
-      next: {
-        tags: ["MenuList"],
-      }
-    }).then((res) => res.json());
+    const result = await deleteMenuItem(props.item.id);
     
     if (result.type === "success") {
       toast.success(result.message);

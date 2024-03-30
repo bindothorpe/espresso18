@@ -4,7 +4,11 @@ import { revalidateTag } from "next/cache";
 
 export async function GET(request: Request) {
   try {
-    const response = await prisma.menuItem.findMany();
+    const response = await prisma.menuItem.findMany({
+      orderBy: {
+        order: "asc",
+      },
+    });
 
     revalidateTag("MenuList");
 

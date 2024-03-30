@@ -10,7 +10,10 @@ export async function GET(
 
     const response = await prisma.menuItem.findMany({
       where: {
-        category: category,
+        category: category
+      },
+      orderBy: {
+        order: "asc",
       },
     });
 

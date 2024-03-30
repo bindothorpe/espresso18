@@ -14,6 +14,7 @@ import {
 import { Category } from "../../constants";
 import toast from "react-hot-toast";
 import { MenuItem } from "@prisma/client";
+import { createMenuItem } from "../../actions";
 
 export default function AddItemModal(props: {
   isOpen: boolean;
@@ -38,23 +39,7 @@ export default function AddItemModal(props: {
       setLoading(true);
       const formData = new FormData(event.currentTarget);
 
-      const menuItemData = {
-        name: formData.get("name") as string,
-        description: formData.get("description") as string,
-        price: parseFloat(formData.get("price") as string),
-        category: formData.get("category") as string,
-      };
-
-      const result = await fetch("http://localhost:3000/api/menuitems", {
-        method: "POST",
-        body: JSON.stringify(menuItemData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        next: {
-          tags: ["MenuList"],
-        }
-      }).then((res) => res.json());
+      const result = await createMenuItem(formData);
 
       if(result.type === "success") {
         toast.success(result.message);
