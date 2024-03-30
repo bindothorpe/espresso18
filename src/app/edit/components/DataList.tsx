@@ -35,7 +35,7 @@ export default function DataList(props: {
 
     const sortedMenuData = filteredMenuData.sort((a, b) => a.order - b.order);
     setItems(sortedMenuData);
-  }, [props.menuItems]);
+  }, [props.menuItems, props.category]);
 
   const sensors = useSensors(
     useSensor(TouchSensor, {
