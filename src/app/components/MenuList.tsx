@@ -3,9 +3,7 @@ import { DataResponse, getMenuItemsByCategory } from "../edit/actions";
 import MenuItem from "./MenuItem";
 
 
-export const config = {
-  revalidateTag: 'menu-items',
-};
+export const revalidate = 0;
 
 export default async function MenuList(props: {
   name: string;
