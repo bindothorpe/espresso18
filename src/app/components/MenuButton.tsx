@@ -19,6 +19,10 @@ export default function MenuButton() {
     if (key.toString() === "edit") {
       router.push("/edit");
     }
+
+    if(key.toString() === "home") {
+      router.push("/");
+    }
   }
 
   return (
@@ -29,10 +33,13 @@ export default function MenuButton() {
         </Button>
       </DropdownTrigger>
       <DropdownMenu onAction={handleNavigation} color="default">
-        <DropdownItem key="about">About Us</DropdownItem>
+        <DropdownItem key="home">
+          Home
+        </DropdownItem>
+        {/* <DropdownItem key="about">About Us</DropdownItem>
         <DropdownItem key="coffee">Our Coffee</DropdownItem>
         <DropdownItem key="menu">Menu</DropdownItem>
-        <DropdownItem key="hours">Opening Hours</DropdownItem>
+        <DropdownItem key="hours">Opening Hours</DropdownItem> */}
         <DropdownItem key="edit">
           Edit Information
         </DropdownItem>
