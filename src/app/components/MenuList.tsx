@@ -5,7 +5,7 @@ import { MenuItem as MenuItemType } from "@prisma/client";
 export const revalidate = 0;
 
 export default async function MenuList(props: { name: string }) {
-  const response = await fetch(
+  const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/menuitems/category/${props.name}`, {
       method: "GET",
       headers: {
@@ -15,7 +15,20 @@ export default async function MenuList(props: { name: string }) {
         tags: ["MenuList"],
       }
     }
-  ).then((res) => res.json());
+  );
+
+  let response;
+
+  try {
+    response = await res.json();
+  } catch (error) {
+    console.error("Error fetching menu items", error);
+    response =  {
+      type: "error",
+      message: "Error fetching menu items",
+      data: []
+    };
+  }
 
   const menuItems = response.data;
 

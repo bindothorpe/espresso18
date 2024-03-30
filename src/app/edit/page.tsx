@@ -6,11 +6,24 @@ import toast from "react-hot-toast";
 
 
 export default async function Edit() {
-  const response = await fetch(`https://espresso18.com/api/menuitems`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menuitems`, {
     next: {
       tags: ["MenuList"],
     },
   }).then((res) => res.json());
+
+  let response;
+
+  try {
+    response = await res.json();
+  } catch (error) {
+    console.error("Error fetching menu items", error);
+    response =  {
+      type: "error",
+      message: "Error fetching menu items",
+      data: []
+    };
+  }
 
   if (response.type === "error") {
     toast.error(response.message);
