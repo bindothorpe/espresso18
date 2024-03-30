@@ -33,7 +33,7 @@ export const unstable_getMenuItems = unstable_cache(
       }
     }
   },
-  ["menu-items"],
+  undefined,
   {
     tags: ["menu-items"]
   }
@@ -60,7 +60,7 @@ export const unstable_getMenuItemsByCategory = unstable_cache(
       }
     }
   },
-  ["menu-items"],
+  undefined,
   {
     tags: ["menu-items"]
   }
