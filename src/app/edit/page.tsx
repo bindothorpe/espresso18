@@ -1,5 +1,4 @@
 import TabNavigation from "./components/TabNavigation";
-
 import AddMenuItemButton from "./components/AddMenuItemButton";
 import DataListsContainer from "./DataListsContainer";
 import toast from "react-hot-toast";
@@ -7,7 +6,7 @@ import toast from "react-hot-toast";
 
 
 export default async function Edit() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menuitems`, {
+  const response = await fetch(`https://espresso18.com/api/menuitems`, {
     next: {
       tags: ["MenuList"],
     },
