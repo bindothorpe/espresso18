@@ -4,8 +4,10 @@ import AddMenuItemButton from "./components/AddMenuItemButton";
 import DataListsContainer from "./DataListsContainer";
 import toast from "react-hot-toast";
 
+
+
 export default async function Edit() {
-  const response = await fetch("http://localhost:3000/api/menuitems", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menuitems`, {
     next: {
       tags: ["MenuList"],
     },

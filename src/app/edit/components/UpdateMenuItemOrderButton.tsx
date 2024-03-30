@@ -14,7 +14,7 @@ export default function UpdateMenuItemOrderButton(props: {
 
   const handleUpdateOrder = async () => {
     setLoading(true);
-    const response = await fetch("http://localhost:3000/api/menuitems", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menuitems`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

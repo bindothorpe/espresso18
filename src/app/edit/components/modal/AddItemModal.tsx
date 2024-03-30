@@ -13,7 +13,6 @@ import {
 } from "@nextui-org/react";
 import { Category } from "../../constants";
 import toast from "react-hot-toast";
-import { MenuItem } from "@prisma/client";
 import { createMenuItem } from "../../actions";
 
 export default function AddItemModal(props: {

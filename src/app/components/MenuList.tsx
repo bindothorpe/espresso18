@@ -6,7 +6,7 @@ export const revalidate = 0;
 
 export default async function MenuList(props: { name: string }) {
   const response = await fetch(
-    `http://localhost:3000/api/menuitems/category/${props.name}`, {
+    `${process.env.NEXT_PUBLIC_BASE_URL}/menuitems/category/${props.name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
