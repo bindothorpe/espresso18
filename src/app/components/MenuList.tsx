@@ -1,34 +1,13 @@
 import toast from "react-hot-toast";
 import MenuItem from "./MenuItem";
 import { MenuItem as MenuItemType } from "@prisma/client";
+import { getMenuItemsByCategory } from "../edit/actions";
 
 export const revalidate = 0;
 
 export default async function MenuList(props: { name: string }) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/menuitems/category/${props.name}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      next: {
-        tags: ["MenuList"],
-      }
-    }
-  );
 
-  let response;
-
-  try {
-    response = await res.json();
-  } catch (error) {
-    console.error("Error fetching menu items", error);
-    response =  {
-      type: "error",
-      message: "Error fetching menu items",
-      data: []
-    };
-  }
+  const response = await getMenuItemsByCategory(props.name);
 
   const menuItems = response.data;
 

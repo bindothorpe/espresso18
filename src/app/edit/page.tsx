@@ -2,28 +2,14 @@ import TabNavigation from "./components/TabNavigation";
 import AddMenuItemButton from "./components/AddMenuItemButton";
 import DataListsContainer from "./DataListsContainer";
 import toast from "react-hot-toast";
+import { getMenuItems } from "./actions";
 
 
 
 export default async function Edit() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menuitems`, {
-    next: {
-      tags: ["MenuList"],
-    },
-  });
 
-  let response;
+  const response = await getMenuItems();
 
-  try {
-    response = await res.json();
-  } catch (error) {
-    console.error("Error fetching menu items", error);
-    response =  {
-      type: "error",
-      message: "Error fetching menu items",
-      data: []
-    };
-  }
 
   if (response.type === "error") {
     toast.error(response.message);
