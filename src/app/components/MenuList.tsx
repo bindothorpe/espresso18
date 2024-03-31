@@ -1,19 +1,17 @@
 import toast from "react-hot-toast";
-import { DataResponse, getMenuItemsByCategory, unstable_getMenuItemsByCategory } from "../edit/actions";
 import MenuItem from "./MenuItem";
-
+import { MenuItem as MenuItemType } from "@prisma/client";
+import { getMenuItemsByCategory } from "../edit/actions";
 
 export const revalidate = 0;
 
-export default async function MenuList(props: {
-  name: string;
-}) {
+export default async function MenuList(props: { name: string }) {
 
-  const response = await unstable_getMenuItemsByCategory(props.name);
+  const response = await getMenuItemsByCategory(props.name);
 
   const menuItems = response.data;
 
-  if(response.type === "error") {
+  if (response.type === "error") {
     toast.error(response.message);
   }
 
@@ -21,10 +19,9 @@ export default async function MenuList(props: {
     <div>
       <h2>{props.name}</h2>
 
-      {/* //Horizontal line */}
       <div className="h-[2px] bg-black my-5"></div>
       <ul>
-        {menuItems.map((item, index) => (
+        {menuItems.map((item: MenuItemType, index: number) => (
           <li key={index} className="my-5">
             <MenuItem {...item} />
           </li>

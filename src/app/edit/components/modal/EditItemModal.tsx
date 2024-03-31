@@ -12,9 +12,9 @@ import {
   Button,
 } from "@nextui-org/react";
 import { MenuItem } from "@prisma/client";
-import { deleteMenuItem, updateMenuItem } from "../../actions";
 import { Category } from "../../constants";
 import toast from "react-hot-toast";
+import { Response, deleteMenuItem, updateMenuItem } from "../../actions";
 
 export default function EditItemModal(props: {
   isOpen: boolean;
@@ -38,8 +38,10 @@ export default function EditItemModal(props: {
       event.preventDefault();
       setLoading(true);
       const formData = new FormData(event.currentTarget);
-      const result = await updateMenuItem(props.item.id, formData);
-      
+
+
+      const result: Response = await updateMenuItem(props.item.id, formData);
+
       if (result.type === "success") {
         toast.success(result.message);
         props.onClose();
@@ -54,6 +56,7 @@ export default function EditItemModal(props: {
 
   const handleRemove = useCallback(async () => {
     setLoadingRemove(true);
+    
     const result = await deleteMenuItem(props.item.id);
     
     if (result.type === "success") {

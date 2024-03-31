@@ -11,9 +11,9 @@ import {
   SelectItem,
   Button,
 } from "@nextui-org/react";
-import { createMenuItem } from "../../actions";
 import { Category } from "../../constants";
 import toast from "react-hot-toast";
+import { createMenuItem } from "../../actions";
 
 export default function AddItemModal(props: {
   isOpen: boolean;
@@ -37,6 +37,7 @@ export default function AddItemModal(props: {
       event.preventDefault();
       setLoading(true);
       const formData = new FormData(event.currentTarget);
+
       const result = await createMenuItem(formData);
 
       if(result.type === "success") {

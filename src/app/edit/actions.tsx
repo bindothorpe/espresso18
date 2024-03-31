@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { MenuItem } from "@prisma/client";
-import { revalidatePath, revalidateTag, unstable_cache,  } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 export type Response = {
   type: "error" | "success";
@@ -12,61 +12,12 @@ export type DataResponse = {
   type: "error" | "success";
   message: string;
   data: MenuItem[];
-}
+};
 
-
-export const unstable_getMenuItems = unstable_cache(
-  async () => {
-    try {
-      const data = await prisma.menuItem.findMany();
-
-      return {
-        type: "success",
-        message: "Succesfully fetched menu items.",
-        data: data
-      }
-    } catch (error) {
-      return {
-        type: "error",
-        message: "Error fetching menu items. Please try again later.",
-        data: []
-      }
-    }
-  },
-  undefined,
-  {
-    tags: ["menu-items"]
-  }
-)
-
-export const unstable_getMenuItemsByCategory = unstable_cache(
-  async (category: string) => {
-    try {
-      const data = await prisma.menuItem.findMany({
-        where: { category: category },
-        orderBy: { order: "asc" },
-      });
-  
-      return {
-        type: "success",
-        message: "Succesfully fetched menu items.",
-        data: data
-      }
-    } catch(error) {
-      return {
-        type: "error",
-        message: "Error fetching menu items. Please try again later.",
-        data: []
-      }
-    }
-  },
-  undefined,
-  {
-    tags: ["menu-items"]
-  }
-)
-
-export async function updateMenuItem(id: string, formData: FormData) : Promise<Response>{
+export async function updateMenuItem(
+  id: string,
+  formData: FormData
+): Promise<Response> {
   try {
     const description = formData.get("description") as string | null;
 
@@ -78,28 +29,31 @@ export async function updateMenuItem(id: string, formData: FormData) : Promise<R
       category: formData.get("category") as string,
     };
 
-    if(data.name === null || data.name.trim().length === 0) return {
-      type: "error",
-      message: "Name cannot be empty.",
-    };
+    if (data.name === null || data.name.trim().length === 0)
+      return {
+        type: "error",
+        message: "Name cannot be empty.",
+      };
 
-    if(data.price === undefined || data.price < 0) return {
-      type: "error",
-      message: "Price cannot be negative.",
-    };
+    if (data.price === undefined || data.price < 0)
+      return {
+        type: "error",
+        message: "Price cannot be negative.",
+      };
 
-    if(data.category === null || data.category.trim().length === 0) return {
-      type: "error",
-      message: "Category cannot be empty.",
-    };
-
+    if (data.category === null || data.category.trim().length === 0)
+      return {
+        type: "error",
+        message: "Category cannot be empty.",
+      };
 
     await prisma.menuItem.update({
       where: { id },
       data,
     });
 
-    revalidateTag("menu-items");
+    revalidatePath("/edit");
+    revalidatePath("/");
 
     return {
       type: "success",
@@ -119,7 +73,8 @@ export async function deleteMenuItem(id: string): Promise<Response> {
       where: { id },
     });
 
-    revalidateTag("menu-items");
+    revalidatePath("/edit");
+    revalidatePath("/");
 
     return {
       type: "success",
@@ -154,26 +109,30 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
       category: formData.get("category") as string,
     };
 
-    if(data.name === null || data.name.trim().length === 0) return {
-      type: "error",
-      message: "Name cannot be empty.",
-    };
+    if (data.name === null || data.name.trim().length === 0)
+      return {
+        type: "error",
+        message: "Name cannot be empty.",
+      };
 
-    if(data.price < 0) return {
-      type: "error",
-      message: "Price cannot be negative.",
-    };
+    if (data.price < 0)
+      return {
+        type: "error",
+        message: "Price cannot be negative.",
+      };
 
-    if(data.category === null || data.category.trim().length === 0) return {
-      type: "error",
-      message: "Category cannot be empty.",
-    };
+    if (data.category === null || data.category.trim().length === 0)
+      return {
+        type: "error",
+        message: "Category cannot be empty.",
+      };
 
     await prisma.menuItem.create({
       data,
     });
 
-    revalidateTag("menu-items");
+    revalidatePath("/edit");
+    revalidatePath("/");
 
     return {
       type: "success",
@@ -187,7 +146,9 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
   }
 }
 
-export async function updateMenuItemOrder(menuItems: MenuItem[]): Promise<Response> {
+export async function updateMenuItemOrder(
+  menuItems: MenuItem[]
+): Promise<Response> {
   try {
     const updatePromises = menuItems.map((item) => {
       return prisma.menuItem.update({
@@ -198,7 +159,8 @@ export async function updateMenuItemOrder(menuItems: MenuItem[]): Promise<Respon
 
     await Promise.all(updatePromises);
 
-    revalidateTag("menu-items");
+    revalidatePath("/edit");
+    revalidatePath("/");
 
     return {
       type: "success",
@@ -219,18 +181,20 @@ export async function getMenuItems(): Promise<DataResponse> {
     return {
       type: "success",
       message: "Succesfully fetched menu items.",
-      data: data
-    }
-  } catch(error) {
+      data: data,
+    };
+  } catch (error) {
     return {
       type: "error",
       message: "Error fetching menu items. Please try again later.",
-      data: []
-    }
+      data: [],
+    };
   }
 }
 
-export async function getMenuItemsByCategory(category: string): Promise<DataResponse> {
+export async function getMenuItemsByCategory(
+  category: string
+): Promise<DataResponse> {
   try {
     const data = await prisma.menuItem.findMany({
       where: { category: category },
@@ -240,13 +204,13 @@ export async function getMenuItemsByCategory(category: string): Promise<DataResp
     return {
       type: "success",
       message: "Succesfully fetched menu items.",
-      data: data
-    }
-  } catch(error) {
+      data: data,
+    };
+  } catch (error) {
     return {
       type: "error",
       message: "Error fetching menu items. Please try again later.",
-      data: []
-    }
+      data: [],
+    };
   }
 }
