@@ -1,6 +1,6 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { MenuItem } from "@prisma/client";
+import { Location, MenuItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export type Response = {
@@ -12,6 +12,15 @@ export type DataResponse = {
   type: "error" | "success";
   message: string;
   data: MenuItem[];
+};
+
+export type LocationResponse = {
+  type: "error" | "success";
+  message: string;
+  data: {
+    address: string;
+    googleMapsUrl: string;
+  };
 };
 
 export async function updateMenuItem(
@@ -211,6 +220,87 @@ export async function getMenuItemsByCategory(
       type: "error",
       message: "Error fetching menu items. Please try again later.",
       data: [],
+    };
+  }
+}
+
+export async function updateLocation(formData: FormData): Promise<Response> {
+  try {
+    const location = await prisma.location.findFirst();
+
+    if (location !== null) {
+      const data = {
+        address: formData.get("address") as string,
+        googleMapsUrl: formData.get("googleMapsUrl") as string,
+      };
+      await prisma.location.update({
+        where: { id: location.id },
+        data,
+      });
+
+      revalidatePath("/edit");
+      revalidatePath("/");
+
+      return {
+        type: "success",
+        message: "Successfully updated location.",
+      };
+    } else {
+      console.log("Location not found.");
+      return {
+        type: "error",
+        message: "Error updating location. Please try again later.",
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    return {
+      type: "error",
+      message: "Error updating location. Please try again later.",
+    };
+  }
+}
+
+export async function getLocationAndCreateIfMissing(): Promise<LocationResponse> {
+  try {
+    const location = await prisma.location.findFirst();
+    if (location !== null) {
+      return {
+        type: "success",
+        message: "Location found.",
+        data: {
+          address: location.address,
+          googleMapsUrl: location.googleMapsUrl,
+        },
+      };
+    } else {
+      const location = await prisma.location.create({
+        data: {
+          address: "",
+          googleMapsUrl: "",
+        },
+      });
+
+      revalidatePath("/edit");
+      revalidatePath("/");
+
+      return {
+        type: "success",
+        message: "Location found.",
+        data: {
+          address: location.address,
+          googleMapsUrl: location.googleMapsUrl,
+        },
+      };
+    }
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error fetching location. Please try again later.",
+      data: {
+        address: "",
+        googleMapsUrl: "",
+      },
     };
   }
 }

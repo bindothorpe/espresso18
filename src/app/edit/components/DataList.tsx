@@ -58,7 +58,7 @@ export default function DataList(props: {
   function handleDragEnd(event: { active: any; over: any }): void {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (active.id !== over?.id) {
       setItems((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);

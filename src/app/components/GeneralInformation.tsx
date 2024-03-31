@@ -2,13 +2,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import { getLocationAndCreateIfMissing } from "../edit/actions";
+import toast from "react-hot-toast";
+import { Link } from "@nextui-org/react";
 
-export default function GeneralInformation() {
+export default async function GeneralInformation() {
+  const response = await getLocationAndCreateIfMissing();
+
+  if (response.type === "error") {
+    toast.error(response.message);
+  }
+
+  const location = response.data;
+
   return (
     <section className="flex flex-col bg-white text-black p-8 md:p-20 py-12 md:py-28 gap-16 md:gap-20">
       <div className="flex flex-col gap-3 md:gap-5">
-        <h2 className="text-3xl md:text-5xl font-bold">Opening Hours and Location</h2>
-        <p>{'We\'d love to welcome you and serve you delicious coffee!'}</p>
+        <h2 className="text-3xl md:text-5xl font-bold">
+          Opening Hours and Location
+        </h2>
+        <p>{"We'd love to welcome you and serve you delicious coffee!"}</p>
       </div>
       <div className="flex flex-col md:flex-row gap-12 md:ga-32 lg:gap-48">
         <div className="flex flex-col gap-12">
@@ -18,7 +31,12 @@ export default function GeneralInformation() {
               <FontAwesomeIcon icon={faLocationDot} size="2x" />
             </div>
             <div className="font-bold">Location</div>
-            <div>The actual location</div>
+            <div>{location.address}</div>
+            <div>
+              <Link href={location.googleMapsUrl} underline="hover">
+                Navigate
+              </Link>
+            </div>
           </div>
           {/* Opening Hours */}
           <div className="flex flex-col gap-2">

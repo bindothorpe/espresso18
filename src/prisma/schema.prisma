@@ -18,3 +18,9 @@ model MenuItem {
     price       Float
     category    String
 }
+
+model Location {
+    id            String @id @default(cuid())
+    address       String
+    googleMapsUrl String
+}
