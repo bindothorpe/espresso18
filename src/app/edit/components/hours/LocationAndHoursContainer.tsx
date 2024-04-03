@@ -2,7 +2,7 @@
 
 import { Button, Link } from "@nextui-org/react";
 import { useState } from "react";
-import EditLocationModal from "./modal/EditLocationModal";
+import EditLocationModal from "./EditLocationModal";
 
 export default function LocationAndHoursContainer(props: {
   location: {

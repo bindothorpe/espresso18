@@ -12,6 +12,16 @@ const nextConfig = {
     POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
   },
+  images: {
+    domains: ["via.placeholder.com", "picsum.photos"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ig5hjyaplbmfdoc0.public.blob.vercel-storage.com",
+        port: "",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

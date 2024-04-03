@@ -2,6 +2,8 @@
 import prisma from "@/lib/prisma";
 import { Location, MenuItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { put } from "@vercel/blob";
+import { NextResponse } from "next/server";
 
 export type Response = {
   type: "error" | "success";
@@ -20,6 +22,14 @@ export type LocationResponse = {
   data: {
     address: string;
     googleMapsUrl: string;
+  };
+};
+
+export type ImageResponse = {
+  type: "error" | "success";
+  message: string;
+  data: {
+    imageUrl: string;
   };
 };
 
@@ -303,4 +313,16 @@ export async function getLocationAndCreateIfMissing(): Promise<LocationResponse>
       },
     };
   }
+}
+
+export async function uploadImage(formData: FormData): Promise<void> {
+  const image = formData.get("image") as File;
+  const blob = await put(image.name, image, {
+    access: "public",
+  });
+
+  console.log(blob);
+
+  revalidatePath("/edit");
+  revalidatePath("/");
 }
