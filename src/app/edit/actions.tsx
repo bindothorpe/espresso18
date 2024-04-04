@@ -1,9 +1,8 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { Location, MenuItem } from "@prisma/client";
+import { Image, Location, MenuItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { put } from "@vercel/blob";
-import { NextResponse } from "next/server";
 
 export type Response = {
   type: "error" | "success";
@@ -29,8 +28,17 @@ export type ImageResponse = {
   type: "error" | "success";
   message: string;
   data: {
-    imageUrl: string;
+    id: string;
+    title: string;
+    url: string;
+    altText: string;
   };
+};
+
+export type ImageListResponse = {
+  type: "error" | "success";
+  message: string;
+  data: Image[];
 };
 
 export async function updateMenuItem(
@@ -315,14 +323,59 @@ export async function getLocationAndCreateIfMissing(): Promise<LocationResponse>
   }
 }
 
-export async function uploadImage(formData: FormData): Promise<void> {
-  const image = formData.get("image") as File;
-  const blob = await put(image.name, image, {
-    access: "public",
-  });
+export async function uploadImage(
+  prevState: any,
+  formData: FormData
+): Promise<string> {
+  try {
+    const image = formData.get("image") as File;
+    const blob = await put(image.name, image, {
+      access: "public",
+    });
+    return blob.url;
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
+}
 
-  console.log(blob);
+export async function getImages(): Promise<ImageListResponse> {
+  console.log("getImages");
+  try {
+    const data = await prisma.image.findMany();
+    return {
+      type: "success",
+      message: "Succesfully fetched images.",
+      data: data,
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error fetching images. Please try again later.",
+      data: [],
+    };
+  }
+}
 
-  revalidatePath("/edit");
-  revalidatePath("/");
+export async function updateImage(id: string, url: string): Promise<Response> {
+  try {
+    await prisma.image.update({
+      where: { id },
+      data: { url },
+    });
+
+    revalidatePath("/edit");
+    revalidatePath("/");
+
+    return {
+      type: "success",
+      message: "Succesfully updated image.",
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      type: "error",
+      message: "Error updating image. Please try again later.",
+    };
+  }
 }

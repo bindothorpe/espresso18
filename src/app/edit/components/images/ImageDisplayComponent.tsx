@@ -6,8 +6,10 @@ import { useState } from "react";
 
 export default function ImageDisplayComponent(props: {
   key: number;
+  imageId: string;
   url: string;
   title: string;
+  altText: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -20,7 +22,7 @@ export default function ImageDisplayComponent(props: {
       <Image
         fill
         src={props.url}
-        alt={props.title}
+        alt={props.altText}
         objectFit="cover"
         className="rounded-lg"
       />
@@ -29,7 +31,11 @@ export default function ImageDisplayComponent(props: {
         <div className="text-white text-xl font-bold">{props.title}</div>
         <div className="text-white text-l">Click to edit</div>
       </div>
-      <EditImageModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <EditImageModal
+        imageId={props.imageId}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </div>
   );
 }

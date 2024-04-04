@@ -24,3 +24,10 @@ model Location {
     address       String
     googleMapsUrl String
 }
+
+model Image {
+    id      String @id @default(cuid())
+    title   String
+    url     String
+    altText String
+}

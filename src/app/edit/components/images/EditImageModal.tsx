@@ -8,16 +8,37 @@ import {
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useState } from "react";
-import { uploadImage } from "../../actions";
+import { useEffect, useRef, useState } from "react";
+import { updateImage, uploadImage } from "../../actions";
 import SaveImageButton from "./SaveImageButton";
+import { useFormState } from "react-dom";
+import toast from "react-hot-toast";
+
+const startingState = null;
 
 export default function EditImageModal(props: {
   isOpen: boolean;
   onClose: () => void;
+  imageId: string;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [state, formAction] = useFormState(uploadImage, startingState);
+
+  useEffect(() => {
+    const updateImageAsync = async () => {
+      if (state === null) return;
+      const result = await updateImage(props.imageId, state);
+
+      if (result.type === "success") {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    };
+
+    updateImageAsync();
+  }, [state, props.imageId]);
 
   const handleClick = () => {
     if (fileInputRef.current) {
@@ -47,7 +68,7 @@ export default function EditImageModal(props: {
       onOpenChange={clearFormAndCloseModal}
       placement="auto"
     >
-      <form action={uploadImage}>
+      <form action={formAction}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">Edit Image</ModalHeader>
           <ModalBody>
@@ -90,7 +111,10 @@ export default function EditImageModal(props: {
             >
               Cancel
             </Button>
-            <SaveImageButton onClose={props.onClose} />
+            <SaveImageButton
+              onClose={clearFormAndCloseModal}
+              imageId={props.imageId}
+            />
           </ModalFooter>
         </ModalContent>
       </form>

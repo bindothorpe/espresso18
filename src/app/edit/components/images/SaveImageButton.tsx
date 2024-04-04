@@ -2,7 +2,10 @@ import { Button } from "@nextui-org/react";
 import { useFormStatus } from "react-dom";
 import { useEffect, useRef } from "react";
 
-export default function SaveImageButton(props: { onClose: () => void }) {
+export default function SaveImageButton(props: {
+  onClose: () => void;
+  imageId: string;
+}) {
   const { pending } = useFormStatus();
   const prevPendingRef = useRef(pending);
 
