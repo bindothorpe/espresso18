@@ -1,10 +1,10 @@
 "use client";
 
 import { MenuItem } from "@prisma/client";
-import { Category } from "./constants";
-import DataList from "./components/DataList";
+import { Category } from "../../constants";
+import DataList from "./DataList";
 import { useState } from "react";
-import UpdateMenuItemOrderButton from "./components/UpdateMenuItemOrderButton";
+import UpdateMenuItemOrderButton from "./UpdateMenuItemOrderButton";
 
 export default function DataListsContainer(props: { menuItems: MenuItem[] }) {
   const [menuItemsToUpdate, setMenuItemsToUpdate] = useState<MenuItem[]>([]);

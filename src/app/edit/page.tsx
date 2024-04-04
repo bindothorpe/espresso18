@@ -1,20 +1,29 @@
 import TabNavigation from "./components/TabNavigation";
-import AddMenuItemButton from "./components/AddMenuItemButton";
-import DataListsContainer from "./DataListsContainer";
+import AddMenuItemButton from "./components/menu/AddMenuItemButton";
+import DataListsContainer from "./components/menu/DataListsContainer";
 import toast from "react-hot-toast";
 import { getLocationAndCreateIfMissing, getMenuItems } from "./actions";
-import LocationAndHoursContainer from "./components/LocationAndHoursContainer";
+import LocationAndHoursContainer from "./components/hours/LocationAndHoursContainer";
+import ImagesContainer from "./components/images/ImagesContainer";
 
 export default async function Edit() {
   const response = await getMenuItems();
   const locationResponse = await getLocationAndCreateIfMissing();
 
   if (response.type === "error") {
-    toast.error(response.message);
+    try {
+      toast.error(response.message);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (locationResponse.type === "error") {
-    toast.error(locationResponse.message);
+    try {
+      toast.error(locationResponse.message);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -32,7 +41,7 @@ export default async function Edit() {
         locationAndHoursChildren={
           <LocationAndHoursContainer location={locationResponse.data} />
         }
-        imagesChildren={<>TEST</>}
+        imagesChildren={<ImagesContainer />}
       />
     </div>
   );

@@ -11,22 +11,20 @@ import {
   SelectItem,
   Button,
 } from "@nextui-org/react";
-import { MenuItem } from "@prisma/client";
 import { Category } from "../../constants";
 import toast from "react-hot-toast";
-import { Response, deleteMenuItem, updateMenuItem } from "../../actions";
+import { createMenuItem } from "../../actions";
 
-export default function EditItemModal(props: {
+export default function AddItemModal(props: {
   isOpen: boolean;
   onClose: () => void;
-  item: MenuItem;
 }) {
   const [loading, setLoading] = useState(false);
-  const [loadingRemove, setLoadingRemove] = useState(false);
-  const [name, setName] = useState(props.item.name);
-  const [description, setDescription] = useState(props.item.description ?? "");
-  const [price, setPrice] = useState(props.item.price.toString());
-  const [category, setCategory] = useState(props.item.category);
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
 
   const categories = Object.values(Category);
 
@@ -39,41 +37,37 @@ export default function EditItemModal(props: {
       setLoading(true);
       const formData = new FormData(event.currentTarget);
 
-
-      const result: Response = await updateMenuItem(props.item.id, formData);
+      const result = await createMenuItem(formData);
 
       if (result.type === "success") {
         toast.success(result.message);
-        props.onClose();
+        clearFormAndClose();
       } else if (result.type === "error") {
         toast.error(result.message);
       }
 
       setLoading(false);
     },
-    [props.item.id]
+    []
   );
 
-  const handleRemove = useCallback(async () => {
-    setLoadingRemove(true);
-    
-    const result = await deleteMenuItem(props.item.id);
-    
-    if (result.type === "success") {
-      toast.success(result.message);
-      props.onClose();
-    } else if (result.type === "error") {
-      toast.error(result.message);
-    }
-
-    setLoadingRemove(false);
-  }, [props.item.id]);
+  function clearFormAndClose() {
+    setName("");
+    setDescription("");
+    setPrice("");
+    setCategory(categories[0]);
+    props.onClose();
+  }
 
   return (
-    <Modal isOpen={props.isOpen} onOpenChange={props.onClose} placement="auto">
+    <Modal
+      isOpen={props.isOpen}
+      onOpenChange={clearFormAndClose}
+      placement="auto"
+    >
       <ModalContent>
         <form onSubmit={handleSubmit}>
-          <ModalHeader className="flex flex-col gap-1">Edit Item</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">Add Item</ModalHeader>
           <ModalBody>
             <Input
               label="Item name"
@@ -103,7 +97,7 @@ export default function EditItemModal(props: {
             <Select
               label="Category"
               name="category"
-              defaultSelectedKeys={[props.item.category]}
+              defaultSelectedKeys={[categories[0]]}
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
@@ -116,15 +110,15 @@ export default function EditItemModal(props: {
           </ModalBody>
           <ModalFooter className="flex justify-between">
             <Button
-              color="danger"
+              color="default"
               variant="bordered"
-              onPress={handleRemove}
-              isDisabled={loadingRemove}
+              onPress={clearFormAndClose}
+              isDisabled={loading}
             >
-              {loadingRemove ? "Deleting..." : "Delete"}
+              Cancel
             </Button>
             <Button color="primary" type="submit" isDisabled={loading}>
-              {loading ? "Saving..." : "Save"}
+              {loading ? "Creating..." : "Create"}
             </Button>
           </ModalFooter>
         </form>
