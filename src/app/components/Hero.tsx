@@ -9,7 +9,7 @@ export default async function Hero() {
     <div className="relative w-full h-screen">
       <Image
         src={response.data.url}
-        alt="Hero Image"
+        alt={response.data.altText}
         layout="fill"
         objectFit="cover"
         quality={100}

@@ -2,12 +2,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { getLocationAndCreateIfMissing } from "../edit/actions";
+import {
+  getImageUrlByName,
+  getLocationAndCreateIfMissing,
+} from "../edit/actions";
 import toast from "react-hot-toast";
 import { Link } from "@nextui-org/react";
 
 export default async function GeneralInformation() {
   const response = await getLocationAndCreateIfMissing();
+  const imageResponse = await getImageUrlByName("Navigation Image");
 
   if (response.type === "error") {
     toast.error(response.message);
@@ -50,8 +54,8 @@ export default async function GeneralInformation() {
         </div>
         <div className="relative md:flex-grow h-56 md:h-auto overflow-hidden">
           <Image
-            src="/images/hero_black_and_white.jpg"
-            alt="Picture of the author"
+            src={imageResponse.data.url}
+            alt={imageResponse.data.altText}
             layout="fill"
             objectFit="cover"
           />

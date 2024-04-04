@@ -33,6 +33,7 @@ export default function ImageDisplayComponent(props: {
       </div>
       <EditImageModal
         imageId={props.imageId}
+        imageTitle={props.title}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />

@@ -264,14 +264,12 @@ export async function updateLocation(formData: FormData): Promise<Response> {
         message: "Successfully updated location.",
       };
     } else {
-      console.log("Location not found.");
       return {
         type: "error",
         message: "Error updating location. Please try again later.",
       };
     }
   } catch (error) {
-    console.log(error);
     return {
       type: "error",
       message: "Error updating location. Please try again later.",
@@ -340,7 +338,6 @@ export async function uploadImage(
 }
 
 export async function getImages(): Promise<ImageListResponse> {
-  console.log("getImages");
   try {
     const data = await prisma.image.findMany();
     return {
@@ -358,6 +355,7 @@ export async function getImages(): Promise<ImageListResponse> {
 }
 
 export async function updateImage(id: string, url: string): Promise<Response> {
+  console.log(id, url);
   try {
     await prisma.image.update({
       where: { id },

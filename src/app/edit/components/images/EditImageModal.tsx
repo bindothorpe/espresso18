@@ -20,6 +20,7 @@ export default function EditImageModal(props: {
   isOpen: boolean;
   onClose: () => void;
   imageId: string;
+  imageTitle: string;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -28,17 +29,20 @@ export default function EditImageModal(props: {
   useEffect(() => {
     const updateImageAsync = async () => {
       if (state === null) return;
+
+      console.log(props.imageId);
       const result = await updateImage(props.imageId, state);
 
       if (result.type === "success") {
         toast.success(result.message);
+        clearFormAndCloseModal();
       } else {
         toast.error(result.message);
       }
     };
 
     updateImageAsync();
-  }, [state, props.imageId]);
+  }, [state]);
 
   const handleClick = () => {
     if (fileInputRef.current) {
@@ -70,7 +74,9 @@ export default function EditImageModal(props: {
     >
       <form action={formAction}>
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">Edit Image</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">
+            Edit: {props.imageTitle}
+          </ModalHeader>
           <ModalBody>
             <div
               className={`w-full h-64 flex justify-center items-center flex-col gap-4 font-bold hover:cursor-pointer border-2 border-dashed rounded-lg border-black`}
@@ -111,10 +117,7 @@ export default function EditImageModal(props: {
             >
               Cancel
             </Button>
-            <SaveImageButton
-              onClose={clearFormAndCloseModal}
-              imageId={props.imageId}
-            />
+            <SaveImageButton />
           </ModalFooter>
         </ModalContent>
       </form>
