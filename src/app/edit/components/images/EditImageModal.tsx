@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useRef, useState } from "react";
 import { uploadImage } from "../../actions";
+import SaveImageButton from "./SaveImageButton";
 
 export default function EditImageModal(props: {
   isOpen: boolean;
@@ -89,9 +90,7 @@ export default function EditImageModal(props: {
             >
               Cancel
             </Button>
-            <Button color="primary" type="submit">
-              Save
-            </Button>
+            <SaveImageButton onClose={props.onClose} />
           </ModalFooter>
         </ModalContent>
       </form>
