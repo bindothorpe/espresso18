@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Title from "./Title";
+import { getImageUrlByName } from "../edit/actions";
 
-export default function Hero() {
+export default async function Hero() {
+  const response = await getImageUrlByName("Hero Image");
+
   return (
     <div className="relative w-full h-screen">
       <Image
-        src="/images/hero_black_and_white.jpg"
+        src={response.data.url}
         alt="Hero Image"
         layout="fill"
         objectFit="cover"

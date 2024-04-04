@@ -379,3 +379,41 @@ export async function updateImage(id: string, url: string): Promise<Response> {
     };
   }
 }
+
+export async function getImageUrlByName(title: string): Promise<ImageResponse> {
+  try {
+    const image = await prisma.image.findFirst({
+      where: { title },
+    });
+
+    if (image === null) {
+      return {
+        type: "error",
+        message: "Error retrieving image by name",
+        data: {
+          id: "",
+          title: "",
+          url: "",
+          altText: "",
+        },
+      };
+    }
+
+    return {
+      type: "success",
+      message: "Successfully retrieved image.",
+      data: image,
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error retrieving image by name",
+      data: {
+        id: "",
+        title: "",
+        url: "",
+        altText: "",
+      },
+    };
+  }
+}
