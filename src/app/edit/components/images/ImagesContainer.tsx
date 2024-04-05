@@ -1,12 +1,22 @@
+import toast from "react-hot-toast";
+import { getImages } from "../../actions";
 import ImageDisplayComponent from "./ImageDisplayComponent";
-import { Image } from "@prisma/client";
 
-export default async function ImagesContainer(props: { images: Image[] }) {
+export default async function ImagesContainer() {
+  const response = await getImages();
+
+  if (response.type === "error") {
+    try {
+      toast.error(response.message);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <>
-      {/* <FileUploadComponent /> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-        {props.images.map((image, index) => (
+        {response.data.map((image, index) => (
           <ImageDisplayComponent
             key={index}
             imageId={image.id}
