@@ -3,21 +3,34 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import {
+  getDayHours,
   getImageUrlByName,
   getLocationAndCreateIfMissing,
 } from "../edit/actions";
 import toast from "react-hot-toast";
 import { Link } from "@nextui-org/react";
+import { Day } from "../edit/constants";
+import DayHours from "../edit/components/hours/DayHours";
 
 export default async function GeneralInformation() {
   const response = await getLocationAndCreateIfMissing();
   const imageResponse = await getImageUrlByName("Navigation Image");
+  const hoursResponse = await getDayHours();
+
+  if (hoursResponse.type === "error") {
+    try {
+      toast.error(hoursResponse.message);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   if (response.type === "error") {
     toast.error(response.message);
   }
 
   const location = response.data;
+  const hours = hoursResponse.data;
 
   return (
     <section className="flex flex-col bg-white text-black p-8 md:p-20 py-12 md:py-28 gap-16 md:gap-20">
@@ -48,8 +61,15 @@ export default async function GeneralInformation() {
               <FontAwesomeIcon icon={faCalendar} size="2x" />
             </div>
             <div className="font-bold">Opening Hours</div>
-            <div>Tuesday - Sunday: 8:15 am - 1:00 pm and</div>
-            <div>2:00 pm - 7:00 pm</div>
+            {Object.keys(Day).map((day) => (
+              <DayHours
+                key={`${day}-list`}
+                day={day}
+                dayHours={hours.filter(
+                  (dayHoursRecord) => dayHoursRecord.day === day.toLowerCase()
+                )}
+              />
+            ))}
           </div>
         </div>
         <div className="relative md:flex-grow h-56 md:h-auto overflow-hidden">

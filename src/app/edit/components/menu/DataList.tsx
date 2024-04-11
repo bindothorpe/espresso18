@@ -7,7 +7,7 @@ import {
   TouchSensor,
   PointerSensor,
   useSensor,
-  useSensors
+  useSensors,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -66,7 +66,7 @@ export default function DataList(props: {
 
         // console.log(newItems);
         newItems.forEach((item, index) => {
-          if(item.order !== index) {
+          if (item.order !== index) {
             item.order = index;
             props.onUpdateMenuItem(item);
           }

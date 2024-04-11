@@ -1,8 +1,9 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { Image, Location, MenuItem } from "@prisma/client";
+import { DayHoursRecord, Image, Location, MenuItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { put } from "@vercel/blob";
+import { Day } from "./constants";
 
 export type Response = {
   type: "error" | "success";
@@ -39,6 +40,12 @@ export type ImageListResponse = {
   type: "error" | "success";
   message: string;
   data: Image[];
+};
+
+export type DayHoursResponse = {
+  type: "error" | "success";
+  message: string;
+  data: DayHoursRecord[];
 };
 
 export async function updateMenuItem(
@@ -277,6 +284,95 @@ export async function updateLocation(formData: FormData): Promise<Response> {
   }
 }
 
+export async function createDayHours(
+  dayHoursToCreate: DayHoursRecord[]
+): Promise<Response> {
+  try {
+    const createPromises = dayHoursToCreate.map((dayHour) => {
+      return prisma.dayHoursRecord.create({
+        data: {
+          day: dayHour.day,
+          openTime: dayHour.openTime,
+          closeTime: dayHour.closeTime,
+        },
+      });
+    });
+
+    await Promise.all(createPromises);
+
+    revalidatePath("/edit");
+    revalidatePath("/");
+
+    return {
+      type: "success",
+      message: "Successfully created hours.",
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error creating hours. Please try again later.",
+    };
+  }
+}
+
+export async function updateDayHours(
+  dayHours: DayHoursRecord[]
+): Promise<Response> {
+  try {
+    const updatePromises = dayHours.map((dayHour) => {
+      return prisma.dayHoursRecord.update({
+        where: { id: dayHour.id },
+        data: {
+          openTime: dayHour.openTime,
+          closeTime: dayHour.closeTime,
+        },
+      });
+    });
+
+    await Promise.all(updatePromises);
+
+    revalidatePath("/edit");
+    revalidatePath("/");
+
+    return {
+      type: "success",
+      message: "Successfully updated hours.",
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error updating hours. Please try again later.",
+    };
+  }
+}
+
+export async function deleteDayHours(
+  dayHours: DayHoursRecord[]
+): Promise<Response> {
+  try {
+    const deletePromises = dayHours.map((dayHour) => {
+      return prisma.dayHoursRecord.delete({
+        where: { id: dayHour.id },
+      });
+    });
+
+    await Promise.all(deletePromises);
+
+    revalidatePath("/edit");
+    revalidatePath("/");
+
+    return {
+      type: "success",
+      message: "Successfully deleted hours.",
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error deleting hours. Please try again later.",
+    };
+  }
+}
+
 export async function getLocationAndCreateIfMissing(): Promise<LocationResponse> {
   try {
     const location = await prisma.location.findFirst();
@@ -412,6 +508,24 @@ export async function getImageUrlByName(title: string): Promise<ImageResponse> {
         url: "",
         altText: "",
       },
+    };
+  }
+}
+
+export async function getDayHours(): Promise<DayHoursResponse> {
+  try {
+    const data = await prisma.dayHoursRecord.findMany();
+
+    return {
+      type: "success",
+      message: "Successfully fetched day hours.",
+      data: data,
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error fetching day hours. Please try again later.",
+      data: [],
     };
   }
 }

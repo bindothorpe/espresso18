@@ -3,11 +3,20 @@
 import { MenuItem } from "@prisma/client";
 import { Category } from "../../constants";
 import DataList from "./DataList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UpdateMenuItemOrderButton from "./UpdateMenuItemOrderButton";
 
 export default function DataListsContainer(props: { menuItems: MenuItem[] }) {
   const [menuItemsToUpdate, setMenuItemsToUpdate] = useState<MenuItem[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (menuItemsToUpdate.length > 0) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [menuItemsToUpdate]);
 
   function handleUpdateMenuItems(item: MenuItem) {
     setMenuItemsToUpdate((prevItems) => {

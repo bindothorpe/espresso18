@@ -54,7 +54,9 @@ export default function EditLocationModal(props: {
     <Modal isOpen={props.isOpen} onOpenChange={props.onClose} placement="auto">
       <ModalContent>
         <form onSubmit={handleSubmit}>
-          <ModalHeader className="flex flex-col gap-1">Edit Item</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">
+            Edit Location
+          </ModalHeader>
           <ModalBody>
             <Input
               label="Address"

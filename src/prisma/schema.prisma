@@ -31,3 +31,10 @@ model Image {
     url     String
     altText String
 }
+
+model DayHoursRecord {
+    id        String @id @default(cuid())
+    day       String
+    openTime  String
+    closeTime String
+}
