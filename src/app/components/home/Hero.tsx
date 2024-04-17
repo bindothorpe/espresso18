@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Title from "./Title";
-import { getImageUrlByName } from "../edit/actions";
+import { getImageUrlByName } from "../../edit/actions";
 
 export default async function Hero() {
   const response = await getImageUrlByName("Hero Image");

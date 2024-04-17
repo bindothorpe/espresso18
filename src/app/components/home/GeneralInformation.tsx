@@ -6,11 +6,11 @@ import {
   getDayHours,
   getImageUrlByName,
   getLocationAndCreateIfMissing,
-} from "../edit/actions";
+} from "../../edit/actions";
 import toast from "react-hot-toast";
 import { Link } from "@nextui-org/react";
-import { Day } from "../edit/constants";
-import DayHours from "../edit/components/hours/DayHours";
+import { Day } from "../../edit/constants";
+import DayHours from "../../edit/components/hours/DayHours";
 
 export default async function GeneralInformation() {
   const response = await getLocationAndCreateIfMissing();

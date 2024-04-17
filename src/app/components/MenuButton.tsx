@@ -16,14 +16,12 @@ export default function MenuButton() {
   const router = useRouter();
 
   const handleNavigation = (key: Key) => {
-    if (key.toString() === "edit") {
-      router.push("/edit");
-    }
-
-    if(key.toString() === "home") {
+    if (key.toString() === "home") {
       router.push("/");
+    } else {
+      router.push(`/${key}`);
     }
-  }
+  };
 
   return (
     <Dropdown backdrop="opaque" radius="sm">
@@ -33,16 +31,12 @@ export default function MenuButton() {
         </Button>
       </DropdownTrigger>
       <DropdownMenu onAction={handleNavigation} color="default">
-        <DropdownItem key="home">
-          Home
-        </DropdownItem>
-        {/* <DropdownItem key="about">About Us</DropdownItem>
-        <DropdownItem key="coffee">Our Coffee</DropdownItem>
+        <DropdownItem key="home">Home</DropdownItem>
+        <DropdownItem key="about">About Us</DropdownItem>
+        {/* <DropdownItem key="coffee">Our Coffee</DropdownItem>
         <DropdownItem key="menu">Menu</DropdownItem>
         <DropdownItem key="hours">Opening Hours</DropdownItem> */}
-        <DropdownItem key="edit">
-          Edit Information
-        </DropdownItem>
+        <DropdownItem key="edit">Edit Information</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );

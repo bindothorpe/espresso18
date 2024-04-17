@@ -1,12 +1,11 @@
 import toast from "react-hot-toast";
 import MenuItem from "./MenuItem";
 import { MenuItem as MenuItemType } from "@prisma/client";
-import { getMenuItemsByCategory } from "../edit/actions";
+import { getMenuItemsByCategory } from "../../edit/actions";
 
 export const revalidate = 0;
 
 export default async function MenuList(props: { name: string }) {
-
   const response = await getMenuItemsByCategory(props.name);
 
   const menuItems = response.data;
