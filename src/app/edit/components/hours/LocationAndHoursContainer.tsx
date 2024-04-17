@@ -7,6 +7,8 @@ import { Day } from "../../constants";
 import DayHours from "./DayHours";
 import { DayHoursRecord } from "@prisma/client";
 import EditHoursModal from "./EditHoursModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 export default function LocationAndHoursContainer(props: {
   location: {
@@ -21,17 +23,22 @@ export default function LocationAndHoursContainer(props: {
   return (
     <div className="flex flex-col md:flex-row mx-2 gap-16 md:gap-32">
       <div>
-        <h2 className="text-2xl font-bold mb-2">Location</h2>
+        <div className="flex gap-4 align-middle">
+          <h2 className="text-2xl font-bold mb-2">Location</h2>
+          <Button
+            variant="flat"
+            isIconOnly
+            size="sm"
+            onPress={() => setIsLocationOpen(true)}
+          >
+            <FontAwesomeIcon icon={faPencil} color="#222222" />
+          </Button>
+        </div>
         <p>{props.location.address}</p>
 
         <Link href={props.location.googleMapsUrl} underline="hover">
           Google Maps
         </Link>
-        <div className="mt-2">
-          <Button color="primary" onClick={() => setIsLocationOpen(true)}>
-            Edit Location
-          </Button>
-        </div>
         <EditLocationModal
           isOpen={isLocationOpen}
           onClose={() => setIsLocationOpen(false)}
@@ -39,7 +46,17 @@ export default function LocationAndHoursContainer(props: {
         />
       </div>
       <div>
-        <h2 className="text-5xl font-bold mb-4">Opening hours</h2>
+        <div className="flex align-middle gap-4">
+          <h2 className="text-2xl font-bold mb-4">Opening hours</h2>
+          <Button
+            variant="flat"
+            isIconOnly
+            size="sm"
+            onPress={() => setIsHoursOpen(true)}
+          >
+            <FontAwesomeIcon icon={faPencil} color="#222222" />
+          </Button>
+        </div>
         {Object.keys(Day).map((day) => (
           <DayHours
             key={`${day}-list`}
@@ -49,11 +66,7 @@ export default function LocationAndHoursContainer(props: {
             )}
           />
         ))}
-        <div className="mt-2">
-          <Button color="primary" onClick={() => setIsHoursOpen(true)}>
-            Edit Opening Hours
-          </Button>
-        </div>
+
         <EditHoursModal
           dayHours={props.dayHours}
           isOpen={isHoursOpen}
