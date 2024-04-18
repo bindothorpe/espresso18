@@ -40,7 +40,7 @@ export default async function GeneralInformation() {
           Opening Hours and Location
         </h2>
         <p className="text-sm">
-          We'd love to welcome you and serve you delicious coffee!
+          {"We'd love to welcome you and serve you delicious coffee!"}
         </p>
       </div>
       <div className="flex flex-col md:flex-row gap-12 md:ga-32 lg:gap-48">
