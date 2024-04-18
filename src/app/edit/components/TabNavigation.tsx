@@ -10,13 +10,17 @@ export default function TabNavigation(props: {
   return (
     <div>
       <Tabs variant="underlined" color="primary" aria-label="Edit navigation">
-        <Tab key="menu" title="Menu">
+        <Tab key="menu" title="Menu" className="text-sm">
           <div className="mt-20">{props.menuChildren}</div>
         </Tab>
-        <Tab key="location-and-hours" title="Location and Hours">
+        <Tab
+          key="location-and-hours"
+          title="Location and Hours"
+          className="text-sm"
+        >
           <div className="mt-20 mx-2">{props.locationAndHoursChildren}</div>
         </Tab>
-        <Tab key="images" title="Images">
+        <Tab key="images" title="Images" className="text-sm">
           <div className="mt-20 mx-2">{props.imagesChildren}</div>
         </Tab>
       </Tabs>

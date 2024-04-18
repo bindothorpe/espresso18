@@ -78,7 +78,7 @@ export default function DataList(props: {
 
   return (
     <div className="w-[100%] ml-2 mr-2">
-      <h2>{props.category}</h2> {/* Title */}
+      <h3 className="text-sm">{props.category}</h3> {/* Title */}
       <div className="h-[2px] bg-black my-5"></div> {/* Horizontal Line */}
       <DndContext
         sensors={sensors}

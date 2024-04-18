@@ -28,8 +28,8 @@ export default function ImageDisplayComponent(props: {
       />
       <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition duration-300 rounded-lg"></div>
       <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-        <div className="text-white text-xl font-bold">{props.title}</div>
-        <div className="text-white text-l">Click to edit</div>
+        <div className="text-white text-base font-bold">{props.title}</div>
+        <div className="text-white text-sm">Click to edit</div>
       </div>
       <EditImageModal
         imageId={props.imageId}

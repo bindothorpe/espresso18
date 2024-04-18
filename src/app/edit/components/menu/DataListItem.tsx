@@ -31,10 +31,12 @@ export default function DataListItem(props: MenuItem) {
         className="text-black bg-white my-5 cursor-pointer"
       >
         <div className="flex justify-between">
-          <div>{props.name}</div>
-          <div>{props.price}</div>
+          <div className="text-sm">{props.name}</div>
+          <div className="text-sm">{props.price}</div>
         </div>
-        {props.description && <div>{props.description}</div>}
+        {props.description && (
+          <div className="text-sm">{props.description}</div>
+        )}
       </div>
       <EditItemModal
         isOpen={isEditModalOpen}
