@@ -34,10 +34,18 @@ export default function EditImageModal(props: {
       const result = await updateImage(props.imageId, state);
 
       if (result.type === "success") {
-        toast.success(result.message);
+        try {
+          toast.success(result.message);
+        } catch (error) {
+          console.error(error);
+        }
         clearFormAndCloseModal();
       } else {
-        toast.error(result.message);
+        try {
+          toast.error(result.message);
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
 

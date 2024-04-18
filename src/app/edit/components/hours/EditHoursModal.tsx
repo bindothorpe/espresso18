@@ -66,10 +66,18 @@ export default function EditHoursModal(props: {
         createResult.type === "success" &&
         deleteResult.type === "success"
       ) {
-        toast.success(updateResult.message);
+        try {
+          toast.success(updateResult.message);
+        } catch (error) {
+          console.error(error);
+        }
         props.onClose();
       } else {
-        toast.error(updateResult.message);
+        try {
+          toast.error(updateResult.message);
+        } catch (error) {
+          console.error(error);
+        }
       }
 
       setLoading(false);

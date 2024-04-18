@@ -16,9 +16,17 @@ export default function UpdateMenuItemOrderButton(props: {
     const response = await updateMenuItemOrder(props.menuItems);
 
     if (response.type === "success") {
-      toast.success(response.message);
+      try {
+        toast.success(response.message);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
-      toast.error(response.message);
+      try {
+        toast.error(response.message);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     setLoading(false);

@@ -11,7 +11,11 @@ export default async function MenuList(props: { name: string }) {
   const menuItems = response.data;
 
   if (response.type === "error") {
-    toast.error(response.message);
+    try {
+      toast.error(response.message);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

@@ -42,10 +42,18 @@ export default function EditItemModal(props: {
       const result: Response = await updateMenuItem(props.item.id, formData);
 
       if (result.type === "success") {
-        toast.success(result.message);
+        try {
+          toast.success(result.message);
+        } catch (error) {
+          console.error(error);
+        }
         props.onClose();
       } else if (result.type === "error") {
-        toast.error(result.message);
+        try {
+          toast.error(result.message);
+        } catch (error) {
+          console.error(error);
+        }
       }
 
       setLoading(false);
@@ -59,10 +67,18 @@ export default function EditItemModal(props: {
     const result = await deleteMenuItem(props.item.id);
 
     if (result.type === "success") {
-      toast.success(result.message);
+      try {
+        toast.success(result.message);
+      } catch (error) {
+        console.error(error);
+      }
       props.onClose();
     } else if (result.type === "error") {
-      toast.error(result.message);
+      try {
+        toast.error(result.message);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     setLoadingRemove(false);

@@ -27,7 +27,11 @@ export default async function GeneralInformation() {
   }
 
   if (response.type === "error") {
-    toast.error(response.message);
+    try {
+      toast.error(response.message);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const location = response.data;

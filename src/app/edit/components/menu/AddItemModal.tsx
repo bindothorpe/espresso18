@@ -40,10 +40,18 @@ export default function AddItemModal(props: {
       const result = await createMenuItem(formData);
 
       if (result.type === "success") {
-        toast.success(result.message);
+        try {
+          toast.success(result.message);
+        } catch (error) {
+          console.error(error);
+        }
         clearFormAndClose();
       } else if (result.type === "error") {
-        toast.error(result.message);
+        try {
+          toast.error(result.message);
+        } catch (error) {
+          console.error(error);
+        }
       }
 
       setLoading(false);

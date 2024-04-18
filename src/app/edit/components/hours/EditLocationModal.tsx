@@ -39,10 +39,18 @@ export default function EditLocationModal(props: {
       const result: Response = await updateLocation(formData);
 
       if (result.type === "success") {
-        toast.success(result.message);
+        try {
+          toast.success(result.message);
+        } catch (error) {
+          console.error(error);
+        }
         props.onClose();
       } else if (result.type === "error") {
-        toast.error(result.message);
+        try {
+          toast.error(result.message);
+        } catch (error) {
+          console.error(error);
+        }
       }
 
       setLoading(false);
