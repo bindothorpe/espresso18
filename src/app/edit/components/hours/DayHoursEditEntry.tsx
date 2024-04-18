@@ -1,50 +1,57 @@
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, TimeInput } from "@nextui-org/react";
 import { DayHoursRecord } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { Time } from "@internationalized/date";
 
 export default function DayHoursEditEntry(props: {
   dayHour: DayHoursRecord;
   onRemove: () => void;
   onChange: (updatedDayHour: DayHoursRecord) => void;
 }) {
-  const [openTime, setOpenTime] = useState(props.dayHour.openTime);
-  const [closeTime, setCloseTime] = useState(props.dayHour.closeTime);
+  const [openTime, setOpenTime] = useState<Time>(
+    new Time(
+      parseInt(props.dayHour.openTime.split(":")[0]),
+      parseInt(props.dayHour.openTime.split(":")[1])
+    )
+  );
+  const [closeTime, setCloseTime] = useState<Time>(
+    new Time(
+      parseInt(props.dayHour.closeTime.split(":")[0]),
+      parseInt(props.dayHour.closeTime.split(":")[1])
+    )
+  );
 
-  const handleOpenTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOpenTime(event.target.value);
+  const timeToString = (time: Time): string => {
+    return `${time.hour}:${time.minute > 9 ? time.minute : "0" + time.minute}`;
   };
 
   useEffect(() => {
     const updatedDayHour: DayHoursRecord = {
       ...props.dayHour,
-      openTime,
-      closeTime,
+      openTime: timeToString(openTime),
+      closeTime: timeToString(closeTime),
     };
     props.onChange(updatedDayHour);
   }, [openTime, closeTime]);
 
-  const handleCloseTimeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCloseTime(event.target.value);
-  };
-
   return (
     <div className="flex gap-4 items-center">
-      <Input
-        type="text"
+      <TimeInput
+        shouldForceLeadingZeros
         variant="bordered"
+        hourCycle={24}
         value={openTime}
-        onChange={handleOpenTimeChange}
+        onChange={setOpenTime}
       />
       <span>-</span>
-      <Input
-        type="text"
+      <TimeInput
+        shouldForceLeadingZeros
         variant="bordered"
+        hourCycle={24}
         value={closeTime}
-        onChange={handleCloseTimeChange}
+        onChange={setCloseTime}
       />
       <Button variant="flat" isIconOnly onPress={() => props.onRemove()}>
         <FontAwesomeIcon icon={faTrash} color="#222222" />
