@@ -15,11 +15,11 @@ export default function Footer() {
         {/* Links */}
         <div className="flex flex-row md:w-1/2 justify-center w-[100%]">
           <div className="flex md:flex-row flex-wrap gap-x-5 justify-center">
-            <div>Link One</div>
-            <div>Link Two</div>
-            <div>Link Three</div>
-            <div>Link Four</div>
-            <div>Link Five</div>
+            <div className="text-sm">Link One</div>
+            <div className="text-sm">Link Two</div>
+            <div className="text-sm">Link Three</div>
+            <div className="text-sm">Link Four</div>
+            <div className="text-sm">Link Five</div>
           </div>
         </div>
         {/* Socials */}
@@ -37,11 +37,13 @@ export default function Footer() {
       {/* //Copyright */}
       <div className="flex flex-wrap md:flex-row gap-x-5 justify-center">
         <div className="text-center">
-          <span>&copy; 2024 Espresso18. All rights reserved.</span>
+          <span className="text-sm">
+            &copy; 2024 Espresso18. All rights reserved.
+          </span>
         </div>
-        <div className="underline">Privacy Policy</div>
-        <div className="underline">Terms of Service</div>
-        <div className="underline">Cookie Settings</div>
+        <div className="underline text-sm">Privacy Policy</div>
+        <div className="underline text-sm">Terms of Service</div>
+        <div className="underline text-sm">Cookie Settings</div>
       </div>
     </footer>
   );

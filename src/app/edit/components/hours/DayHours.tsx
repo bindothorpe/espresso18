@@ -18,14 +18,14 @@ export default function DayHours(props: {
 
   return (
     <div>
-      <h3 className="font-bold">{props.day}</h3>
-      <div className="mb-2">
+      <h3 className="font-bold text-sm">{props.day}</h3>
+      <div className="mb-2 text-sm">
         {sortedDayHours.length === 0
           ? "Closed"
           : sortedDayHours.map((dayHour) => (
               <div key={dayHour.id}>
-                <span>{dayHour.openTime}</span> -{" "}
-                <span>{dayHour.closeTime}</span>
+                <span className="text-sm">{dayHour.openTime}</span> -{" "}
+                <span className="text-sm">{dayHour.closeTime}</span>
               </div>
             ))}
       </div>

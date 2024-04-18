@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 const { nextui } = require("@nextui-org/react");
+const FluidType = require('tailwindcss-fluid-type')
 
 const config: Config = {
   content: [
@@ -58,6 +59,7 @@ const config: Config = {
         // ... custom themes
       },
     }),
+    FluidType
   ],
 };
 

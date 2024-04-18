@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { Link } from "@nextui-org/react";
 import { Day } from "../../edit/constants";
 import DayHours from "../../edit/components/hours/DayHours";
+import { playfair } from "@/app/fonts";
 
 export default async function GeneralInformation() {
   const response = await getLocationAndCreateIfMissing();
@@ -35,10 +36,12 @@ export default async function GeneralInformation() {
   return (
     <section className="flex flex-col bg-white text-black p-8 md:p-20 py-12 md:py-28 gap-16 md:gap-20">
       <div className="flex flex-col gap-3 md:gap-5">
-        <h2 className="text-3xl md:text-5xl font-bold">
+        <h2 className={`text-7xl font-bold leading-none ${playfair.className}`}>
           Opening Hours and Location
         </h2>
-        <p>{"We'd love to welcome you and serve you delicious coffee!"}</p>
+        <p className="text-sm">
+          We'd love to welcome you and serve you delicious coffee!
+        </p>
       </div>
       <div className="flex flex-col md:flex-row gap-12 md:ga-32 lg:gap-48">
         <div className="flex flex-col gap-12">
@@ -47,11 +50,11 @@ export default async function GeneralInformation() {
             <div>
               <FontAwesomeIcon icon={faLocationDot} size="2x" />
             </div>
-            <div className="font-bold">Location</div>
-            <div>{location.address}</div>
+            <div className="font-bold text-sm">Location</div>
+            <div className="text-sm">{location.address}</div>
             <div>
               <Link href={location.googleMapsUrl} underline="hover">
-                Navigate
+                <span className="text-sm">Navigate</span>
               </Link>
             </div>
           </div>
@@ -60,7 +63,7 @@ export default async function GeneralInformation() {
             <div>
               <FontAwesomeIcon icon={faCalendar} size="2x" />
             </div>
-            <div className="font-bold">Opening Hours</div>
+            <div className="font-bold text-sm">Opening Hours</div>
             {Object.keys(Day).map((day) => (
               <DayHours
                 key={`${day}-list`}

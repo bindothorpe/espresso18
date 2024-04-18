@@ -22,13 +22,13 @@ export default async function About() {
       <div className="md:w-1/2 flex justify-center items-center">
         <div className="gap-10 flex flex-col">
           <h2
-            className={`text-5xl md:text-7xl font-bold leading-none ${playfair.className}`}
+            className={`text-7xl font-bold leading-none ${playfair.className}`}
           >
             Learn more
             <br />
             about us.
           </h2>
-          <p>
+          <p className="text-sm">
             At Espresso 18, we provide not only excellent coffee, but also a
             charming environment and stunning mountain vistas, which together
             make the ideal backdrop for you to unwind and savor a delightful cup

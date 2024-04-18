@@ -27,7 +27,8 @@
     "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "tailwindcss-fluid-type": "^2.0.6"
   },
   "devDependencies": {
     "@types/node": "^20",

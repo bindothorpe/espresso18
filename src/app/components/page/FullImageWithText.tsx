@@ -26,7 +26,7 @@ export default async function FullImageWithText(props: { imageName: string }) {
           <div className="flex flex-col md:flex-row gap-16">
             {/* Column 1 */}
             <div className="md:w-1/2">
-              <p className="text-lg font-bold">
+              <p className="text-base font-bold">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
                 mollitia hic, aliquid corrupti cumque natus error debitis in
                 doloribus assumenda nobis quo possimus, earum libero, tempora
@@ -35,7 +35,7 @@ export default async function FullImageWithText(props: { imageName: string }) {
             </div>
             {/* Column 2 */}
             <div className="md:w-1/2">
-              <p className="text-lg">
+              <p className="text-base">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum
                 ab qui autem obcaecati odit esse temporibus provident sit culpa
                 similique!<br></br>

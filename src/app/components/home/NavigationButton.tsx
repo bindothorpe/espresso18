@@ -28,7 +28,12 @@ export default function NavigationButton(props: {
     );
 
   return (
-    <Button color="primary" radius="sm" onPress={handleNavigation}>
+    <Button
+      color="primary"
+      radius="sm"
+      onPress={handleNavigation}
+      className="text-sm"
+    >
       Learn More
     </Button>
   );

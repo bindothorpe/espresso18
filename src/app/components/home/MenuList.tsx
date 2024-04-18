@@ -16,7 +16,7 @@ export default async function MenuList(props: { name: string }) {
 
   return (
     <div>
-      <h2>{props.name}</h2>
+      <h3 className="text-sm">{props.name}</h3>
 
       <div className="h-[2px] bg-black my-5"></div>
       <ul>
