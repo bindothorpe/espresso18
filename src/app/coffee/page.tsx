@@ -3,19 +3,19 @@ import BackButton from "../components/page/BackButton";
 import FullImageWithText from "../components/page/FullImageWithText";
 import { playfair } from "../fonts";
 
-export default async function About() {
+export default async function Coffee() {
   return (
     <>
       <div className="absolute top-4 left-4 z-10">
         <BackButton path="/" />
       </div>
       <FullImageWithText
-        imageName="About Image"
+        imageName="Coffee Image"
         component={
           <div className="md:w-1/2 p-8 md:p-16 flex items-center">
             <div>
               <h2 className={`text-9xl font-bold mb-8 ${playfair.className}`}>
-                About us.
+                Our coffee.
               </h2>
               <div className="flex flex-col md:flex-row gap-16">
                 {/* Column 1 */}

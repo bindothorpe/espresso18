@@ -16,6 +16,7 @@ export default function MenuButton() {
   const items = [
     { key: "home", label: "Home" },
     { key: "about", label: "About Us" },
+    { key: "coffee", label: "Our Coffee" },
     { key: "edit", label: "Edit Information" },
   ];
 
