@@ -13,15 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export default function MenuButton() {
-  const router = useRouter();
-
-  const handleNavigation = (key: Key) => {
-    if (key.toString() === "home") {
-      router.push("/");
-    } else {
-      router.push(`/${key}`);
-    }
-  };
+  const items = [
+    { key: "home", label: "Home" },
+    { key: "about", label: "About Us" },
+    { key: "edit", label: "Edit Information" },
+  ];
 
   return (
     <Dropdown backdrop="opaque" radius="sm">
@@ -30,13 +26,15 @@ export default function MenuButton() {
           <FontAwesomeIcon icon={faBars} size="2x" color="#222222" />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu onAction={handleNavigation} color="default">
-        <DropdownItem key="home">Home</DropdownItem>
-        <DropdownItem key="about">About Us</DropdownItem>
-        {/* <DropdownItem key="coffee">Our Coffee</DropdownItem>
-        <DropdownItem key="menu">Menu</DropdownItem>
-        <DropdownItem key="hours">Opening Hours</DropdownItem> */}
-        <DropdownItem key="edit">Edit Information</DropdownItem>
+      <DropdownMenu color="default" items={items}>
+        {(item) => (
+          <DropdownItem
+            key={item.key}
+            href={item.key === "home" ? "/" : `/${item.key}`}
+          >
+            {item.label}
+          </DropdownItem>
+        )}
       </DropdownMenu>
     </Dropdown>
   );
