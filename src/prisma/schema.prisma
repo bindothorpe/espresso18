@@ -38,3 +38,11 @@ model DayHoursRecord {
     openTime  String
     closeTime String
 }
+
+model TextData {
+    id    String @id @default(cuid())
+    group String
+    order Int
+    title String
+    text  String
+}

@@ -5,6 +5,7 @@ export default function TabNavigation(props: {
   menuChildren: React.ReactNode;
   locationAndHoursChildren: React.ReactNode;
   imagesChildren: React.ReactNode;
+  textChildren: React.ReactNode;
 }) {
   const styling = {
     tabList: "flex justify-between w-full",
@@ -27,6 +28,9 @@ export default function TabNavigation(props: {
         </Tab>
         <Tab key="images" title="Images">
           <div className="mt-20 mx-2">{props.imagesChildren}</div>
+        </Tab>
+        <Tab key="text" title="Text">
+          <div className="mt-20 mx-2">{props.textChildren}</div>
         </Tab>
       </Tabs>
     </div>

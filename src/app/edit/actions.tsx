@@ -1,6 +1,12 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { DayHoursRecord, Image, Location, MenuItem } from "@prisma/client";
+import {
+  DayHoursRecord,
+  Image,
+  Location,
+  MenuItem,
+  TextData,
+} from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { put } from "@vercel/blob";
 import { Day } from "./constants";
@@ -525,6 +531,62 @@ export async function getDayHours(): Promise<DayHoursResponse> {
     return {
       type: "error",
       message: "Error fetching day hours. Please try again later.",
+      data: [],
+    };
+  }
+}
+
+type TextDataResponse = {
+  type: "error" | "success";
+  message: string;
+  data: TextData[];
+};
+
+export async function getTextData(): Promise<TextDataResponse> {
+  try {
+    const data = await prisma.textData.findMany();
+
+    return {
+      type: "success",
+      message: "Successfully fetched text data.",
+      data: data,
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error fetching text data. Please try again later.",
+      data: [],
+    };
+  }
+}
+
+export async function getTextDataGroups(): Promise<{
+  type: "error" | "success";
+  message: string;
+  data: string[];
+}> {
+  try {
+    const data = await prisma.textData.findMany({
+      distinct: ["group"],
+      select: {
+        group: true,
+      },
+      orderBy: {
+        group: "asc",
+      },
+    });
+
+    const groupNames = data.map((item) => item.group);
+
+    return {
+      type: "success",
+      message: "Successfully fetched text data groups.",
+      data: groupNames,
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error fetching text data groups. Please try again later.",
       data: [],
     };
   }

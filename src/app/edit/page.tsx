@@ -3,6 +3,7 @@ import ImagesContainer from "./components/images/ImagesContainer";
 import MenuWrapper from "./components/menu/MenuWrapper";
 import LocationAndHoursWrapper from "./components/hours/LocationAndHoursWrapper";
 import { playfair } from "../fonts";
+import TextWrapper from "./components/text/TextWrapper";
 
 export default async function Edit() {
   return (
@@ -16,6 +17,7 @@ export default async function Edit() {
         menuChildren={<MenuWrapper />}
         locationAndHoursChildren={<LocationAndHoursWrapper />}
         imagesChildren={<ImagesContainer />}
+        textChildren={<TextWrapper />}
       />
     </div>
   );
