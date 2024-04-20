@@ -10,6 +10,8 @@ import {
 import { revalidatePath } from "next/cache";
 import { put } from "@vercel/blob";
 import { Day, Group } from "./constants";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 
 export type Response = {
   type: "error" | "success";
@@ -58,6 +60,15 @@ export async function updateMenuItem(
   id: string,
   formData: FormData
 ): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     const description = formData.get("description") as string | null;
 
@@ -108,6 +119,15 @@ export async function updateMenuItem(
 }
 
 export async function deleteMenuItem(id: string): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     await prisma.menuItem.delete({
       where: { id },
@@ -129,6 +149,15 @@ export async function deleteMenuItem(id: string): Promise<Response> {
 }
 
 export async function createMenuItem(formData: FormData): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     const description = formData.get("description") as string | null;
 
@@ -189,6 +218,15 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
 export async function updateMenuItemOrder(
   menuItems: MenuItem[]
 ): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     const updatePromises = menuItems.map((item) => {
       return prisma.menuItem.update({
@@ -256,6 +294,15 @@ export async function getMenuItemsByCategory(
 }
 
 export async function updateLocation(formData: FormData): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     const location = await prisma.location.findFirst();
 
@@ -293,6 +340,15 @@ export async function updateLocation(formData: FormData): Promise<Response> {
 export async function createDayHours(
   dayHoursToCreate: DayHoursRecord[]
 ): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     const createPromises = dayHoursToCreate.map((dayHour) => {
       return prisma.dayHoursRecord.create({
@@ -324,6 +380,15 @@ export async function createDayHours(
 export async function updateDayHours(
   dayHours: DayHoursRecord[]
 ): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     const updatePromises = dayHours.map((dayHour) => {
       return prisma.dayHoursRecord.update({
@@ -355,6 +420,15 @@ export async function updateDayHours(
 export async function deleteDayHours(
   dayHours: DayHoursRecord[]
 ): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     const deletePromises = dayHours.map((dayHour) => {
       return prisma.dayHoursRecord.delete({
@@ -427,6 +501,15 @@ export async function uploadImage(
   prevState: any,
   formData: FormData
 ): Promise<string> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     const image = formData.get("image") as File;
     const blob = await put(image.name, image, {
@@ -457,7 +540,15 @@ export async function getImages(): Promise<ImageListResponse> {
 }
 
 export async function updateImage(id: string, url: string): Promise<Response> {
-  console.log(id, url);
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     await prisma.image.update({
       where: { id },
@@ -619,6 +710,15 @@ export async function updateTextData(
   group: Group,
   text: string
 ): Promise<Response> {
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  const isLoggedIn = await isAuthenticated();
+  if (!isLoggedIn) {
+    redirect("/api/auth/login");
+  }
+  const permission = await getPermission("modify:data");
+  if (!permission?.isGranted) {
+    redirect("/");
+  }
   try {
     await prisma.textData.update({
       where: { id },
