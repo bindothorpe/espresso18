@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function NavigationButton(props: {
+  label: string | JSX.Element | JSX.Element[];
   path: string;
   arrowRight?: boolean;
 }) {
@@ -23,7 +24,7 @@ export default function NavigationButton(props: {
         onPress={handleNavigation}
         endContent={<FontAwesomeIcon icon={faChevronRight} color="#E9E9E9" />}
       >
-        Learn More
+        {props.label}
       </Button>
     );
 
@@ -34,7 +35,7 @@ export default function NavigationButton(props: {
       onPress={handleNavigation}
       className="text-sm"
     >
-      Learn More
+      {props.label}
     </Button>
   );
 }

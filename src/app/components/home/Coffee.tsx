@@ -1,11 +1,30 @@
 import Image from "next/image";
-import { Button } from "@nextui-org/react";
-import { getImageUrlByName } from "../../edit/actions";
+import { getImageUrlByName, getTextDataByGroup } from "../../edit/actions";
 import { playfair } from "@/app/fonts";
 import NavigationButton from "./NavigationButton";
+import parse from "html-react-parser";
+import { Group } from "@/app/edit/constants";
+import toast from "react-hot-toast";
 
 export default async function Coffee() {
   const response = await getImageUrlByName("Our Coffee Image");
+  const textResponse = await getTextDataByGroup(Group.HomeCoffee);
+
+  if (response.type === "error" || textResponse.type === "error") {
+    try {
+      toast.error(response.message);
+    } catch (error) {
+      console.error(error);
+    }
+    return (
+      <>There was an error loading the about us image. Please try again.</>
+    );
+  }
+
+  const parsedTitle = parse(textResponse.data[0].text);
+  const parsedParagraph = parse(textResponse.data[1].text);
+  const parsedButtonLabel = parse(textResponse.data[2].text);
+
   return (
     <section className="flex flex-col-reverse md:flex-row bg-white text-black p-8 md:p-20 py-12 md:py-28 gap-16 md:gap-32">
       <div className="md:w-1/2 flex justify-center items-center">
@@ -13,16 +32,15 @@ export default async function Coffee() {
           <h2
             className={`text-7xl font-bold leading-none ${playfair.className}`}
           >
-            Our coffee and where it came from.
+            {parsedTitle}
           </h2>
-          <p className="text-sm">
-            At Espresso 18, we provide not only excellent coffee, but also a
-            charming environment and stunning mountain vistas, which together
-            make the ideal backdrop for you to unwind and savor a delightful cup
-            of coffee.
-          </p>
+          <p className="text-sm">{parsedParagraph}</p>
           <div>
-            <NavigationButton arrowRight path="/coffee" />
+            <NavigationButton
+              label={parsedButtonLabel}
+              arrowRight
+              path="/coffee"
+            />
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ import {
 } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { put } from "@vercel/blob";
-import { Day } from "./constants";
+import { Day, Group } from "./constants";
 
 export type Response = {
   type: "error" | "success";
@@ -560,6 +560,28 @@ export async function getTextData(): Promise<TextDataResponse> {
   }
 }
 
+export async function getTextDataByGroup(
+  group: Group
+): Promise<TextDataResponse> {
+  try {
+    const data = await prisma.textData.findMany({
+      where: { group },
+    });
+
+    return {
+      type: "success",
+      message: "Successfully fetched text data.",
+      data: data,
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error fetching text data. Please try again later.",
+      data: [],
+    };
+  }
+}
+
 export async function getTextDataGroups(): Promise<{
   type: "error" | "success";
   message: string;
@@ -588,6 +610,45 @@ export async function getTextDataGroups(): Promise<{
       type: "error",
       message: "Error fetching text data groups. Please try again later.",
       data: [],
+    };
+  }
+}
+
+export async function updateTextData(
+  id: string,
+  group: Group,
+  text: string
+): Promise<Response> {
+  try {
+    await prisma.textData.update({
+      where: { id },
+      data: { text },
+    });
+
+    revalidatePath("/edit");
+
+    switch (group) {
+      case Group.HomeAbout:
+      case Group.HomeCoffee:
+      case Group.HomeInfo:
+        revalidatePath("/");
+        break;
+      case Group.About:
+        revalidatePath("/about");
+        break;
+      case Group.Coffee:
+        revalidatePath("/coffee");
+        break;
+    }
+
+    return {
+      type: "success",
+      message: "Successfully updated text data.",
+    };
+  } catch (error) {
+    return {
+      type: "error",
+      message: "Error updating text data. Please try again later.",
     };
   }
 }

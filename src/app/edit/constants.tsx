@@ -13,3 +13,11 @@ export enum Day {
   Saturday = "saturday",
   Sunday = "sunday",
 }
+
+export enum Group {
+  HomeAbout = "home_about",
+  HomeCoffee = "home_coffee",
+  HomeInfo = "home_info",
+  About = "about",
+  Coffee = "coffee",
+}
