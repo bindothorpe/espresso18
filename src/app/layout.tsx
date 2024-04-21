@@ -41,7 +41,7 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body className={inter.className}>
         <Providers>
-          <main className="text-foreground bg-background">
+          <main className="text-foreground bg-background selection:text-white selection:bg-black">
             <div className="fixed top-0 right-0 p-4 pr-5 z-10">
               <MenuButton />
             </div>
