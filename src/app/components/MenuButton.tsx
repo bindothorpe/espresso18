@@ -1,5 +1,5 @@
 "use client";
-import React, { Key } from "react";
+import React, { Key, useState } from "react";
 import {
   Button,
   Dropdown,
@@ -8,7 +8,7 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import {
   LogoutLink,
   useKindeBrowserClient,
@@ -16,6 +16,8 @@ import {
 
 export default function MenuButton() {
   const { isAuthenticated, isLoading } = useKindeBrowserClient();
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
   const items = [
     { key: "home", label: "Home" },
     { key: "about", label: "About Us" },
@@ -28,10 +30,18 @@ export default function MenuButton() {
   }
 
   return (
-    <Dropdown backdrop="opaque" radius="sm">
+    <Dropdown
+      backdrop="opaque"
+      radius="sm"
+      onOpenChange={(isOpen: boolean) => setIsMenuOpen(isOpen)}
+    >
       <DropdownTrigger>
         <Button isIconOnly variant="light">
-          <FontAwesomeIcon icon={faBars} size="2x" color="#222222" />
+          <FontAwesomeIcon
+            icon={isMenuOpen ? faXmark : faBars}
+            size="2x"
+            color="#222222"
+          />
         </Button>
       </DropdownTrigger>
       <DropdownMenu color="default" items={items}>
