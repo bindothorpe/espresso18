@@ -11,7 +11,7 @@ export default async function Edit() {
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {

@@ -63,7 +63,7 @@ export async function updateMenuItem(
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -122,7 +122,7 @@ export async function deleteMenuItem(id: string): Promise<Response> {
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -152,7 +152,7 @@ export async function createMenuItem(formData: FormData): Promise<Response> {
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -221,7 +221,7 @@ export async function updateMenuItemOrder(
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -297,7 +297,7 @@ export async function updateLocation(formData: FormData): Promise<Response> {
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -343,7 +343,7 @@ export async function createDayHours(
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -383,7 +383,7 @@ export async function updateDayHours(
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -423,7 +423,7 @@ export async function deleteDayHours(
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -504,7 +504,7 @@ export async function uploadImage(
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -543,7 +543,7 @@ export async function updateImage(id: string, url: string): Promise<Response> {
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {
@@ -713,7 +713,7 @@ export async function updateTextData(
   const { isAuthenticated, getPermission } = getKindeServerSession();
   const isLoggedIn = await isAuthenticated();
   if (!isLoggedIn) {
-    redirect("/api/auth/login");
+    redirect("/login");
   }
   const permission = await getPermission("modify:data");
   if (!permission?.isGranted) {

@@ -8,14 +8,19 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faXmark,
+  faSignOut,
+  faPencil,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   LogoutLink,
   useKindeBrowserClient,
 } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function MenuButton() {
-  const { isAuthenticated, isLoading } = useKindeBrowserClient();
+  const { isAuthenticated, isLoading, getPermission } = useKindeBrowserClient();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const items = [
@@ -25,7 +30,10 @@ export default function MenuButton() {
   ];
 
   if (!isLoading && isAuthenticated) {
-    items.push({ key: "edit", label: "Edit Information" });
+    if (getPermission("modify:data")?.isGranted) {
+      items.push({ key: "edit", label: "Edit Information" });
+    }
+
     items.push({ key: "logout", label: "Logout" });
   }
 
@@ -52,6 +60,7 @@ export default function MenuButton() {
                 key={item.key}
                 className="text-danger"
                 color="danger"
+                endContent={<FontAwesomeIcon icon={faSignOut} color="danger" />}
               >
                 <LogoutLink>{item.label}</LogoutLink>
               </DropdownItem>
