@@ -13,7 +13,8 @@ import {
 import { useMemo, useState } from "react";
 
 export default function LoginCard() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const validateEmail = (value: string) =>
     value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i);
@@ -42,22 +43,30 @@ export default function LoginCard() {
         />
       </CardBody>
       <CardFooter>
-        <LoginLink
-          className="w-[100%]"
-          authUrlParams={{
-            connection_id:
-              process.env.NEXT_PUBLIC_KINDE_CONNECTION_EMAIL_PASSWORDLESS || "",
-            login_hint: value,
-          }}
-        >
-          <Button
+        {!isInvalid && value !== "" ? (
+          <LoginLink
+            onClick={() => setLoading(true)}
             className="w-[100%]"
-            color="primary"
-            isDisabled={isInvalid || value === ""}
+            authUrlParams={{
+              connection_id:
+                process.env.NEXT_PUBLIC_KINDE_CONNECTION_EMAIL_PASSWORDLESS ||
+                "",
+              login_hint: value,
+            }}
           >
+            <Button
+              className="w-[100%]"
+              color="primary"
+              isDisabled={isInvalid || value === "" || loading}
+            >
+              {loading ? "Loading..." : "Login"}
+            </Button>
+          </LoginLink>
+        ) : (
+          <Button className="w-[100%]" color="primary" isDisabled={true}>
             Login
           </Button>
-        </LoginLink>
+        )}
       </CardFooter>
     </Card>
   );
